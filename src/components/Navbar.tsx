@@ -8,7 +8,7 @@ export default function Navbar() {
   const [dropdownOpen, setDropdownOpen] = useState(false);
 
   return (
-    <nav className="text-black pr-32 pl-9 py-6 border-b-2 border-b-[#D5D7DA]">
+    <nav className="text-black pr-32 pl-9 py-6 border-b-2 border-b-[#D5D7DA] h-[13vh]">
       <div className="container mx-auto flex text-xl justify-between items-center">
         {/* Logo */}
         <Link href="/" className="text-3xl font-bold flex items-center justify-center">

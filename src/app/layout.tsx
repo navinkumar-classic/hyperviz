@@ -1,21 +1,16 @@
 import type { Metadata } from "next";
-import { Geist, Montserrat, Geist_Mono } from "next/font/google";
+import { Geist, Montserrat, Geist_Mono, IBM_Plex_Mono } from "next/font/google";
 import Navbar from "@/components/Navbar";
 import "./globals.css";
-
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
-});
-
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
-});
 
 const montSerrat = Montserrat({
   variable: "--font-montserrat",
   subsets: ["latin"],
+});
+
+const plexMono = IBM_Plex_Mono({
+  variable: "--font-mono",
+  weight: "400"
 });
 
 export const metadata: Metadata = {
@@ -31,7 +26,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={` ${montSerrat.variable} antialiased flex flex-col min-h-screen`}
+        className={` ${montSerrat.variable} ${plexMono.variable} antialiased flex flex-col min-h-screen`}
       >
         <Navbar />
         {children}
