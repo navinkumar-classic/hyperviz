@@ -4,42 +4,51 @@ import Image from "next/image";
 import { Slider } from "@mui/material";
 import { useState, useEffect } from "react";
 import { Button, ButtonGroup, Box } from "@mui/material";
+import ImageDisplay from "@/components/imageDisplay"
+import LineGraph from "@/components/lineGraph";
+import BasicLineChart from "@/components/basicLineGraph";
+import LHS from "@/components/LHS";
+import Link from "@/components/link"
+import AttributeList from "@/components/AttributeList";
+import { IconButton } from "@mui/material";
+import { PlayCircleFilled , PauseCircle , SkipNext, SkipPrevious } from "@mui/icons-material";
 
-export default function Home() {
+const imageInfo = {width:420, height:420, heading: "Decision Boundary",alt: "K Value"};
+
+export default function KNN() {
   const [value, setValue] = useState<number>(1);
   const [isPlaying, setIsPlaying] = useState<boolean>(false);
-  const [imageCache, setImageCache] = useState<Record<number, string>>({}); 
+  const [imageCache, setImageCache] = useState<Record<number, string>>({});
   const [distanceMetric, setDistanceMetric] = useState<string>("Manhattan");
   const [weigtingFunction, setweigtingFunction] = useState<string>("Uniform");
 
-  const buttons_dm = [
-    <Button key="manhattan" onClick={()=>{setDistanceMetric("Manhattan")}} sx={{ textTransform: "none",fontSize: "large",fontFamily: "var(--font-plexmono);"}}>Manhattan</Button>,
-    <Button key="cosine" onClick={()=>{setDistanceMetric("Cosine")}} sx={{ textTransform: "none",fontSize: "large",fontFamily: "var(--font-plexmono);"}}>Cosine</Button>,
+  const btndm = [
+    {name: "Manhattan", func: () => setDistanceMetric("Manhattan")},
+    {name: "Cosine", func: () => setDistanceMetric("Cosine")},
+    {name: "Euclidean", func: () => setDistanceMetric("Euclidean")}
   ];
 
-  const buttons_wf = [
-    <Button key="uniform" onClick={()=>{setweigtingFunction("Uniform")}} sx={{ textTransform: "none",fontSize: "large",fontFamily: "var(--font-plexmono);"}}>Uniform</Button>,
-    <Button key="distance" onClick={()=>{setweigtingFunction("Distance")}} sx={{ textTransform: "none",fontSize: "large",fontFamily: "var(--font-plexmono);"}}>Distance</Button>,
+  const btnwf = [
+    {name: "Uniform", func: () => setweigtingFunction("Uniform")},
+    {name: "Distance", func: () => setweigtingFunction("Distance")}
   ];
 
   useEffect(() => {
     const cache: Record<number, string> = {};
 
     for (let i = 1; i <= 240; i++) {
-      const imgSrc = `/knn_${weigtingFunction=="Distance"?"d":"u"}${distanceMetric=="Manhattan"?"m":"c"}/_${weigtingFunction.toLowerCase()}_${distanceMetric.toLowerCase()}_${i}.png`;
-      
-      console.log(imgSrc)
+      const imgSrc = `/knn_${weigtingFunction == "Distance" ? "d" : "u"}${distanceMetric[0].toLowerCase()}/_${weigtingFunction.toLowerCase()}_${distanceMetric.toLowerCase()}_${i}.png`;
       const img = new window.Image();
       img.src = imgSrc;
       img.onload = () => {
-        cache[i] = imgSrc; 
+        cache[i] = imgSrc;
 
         if (Object.keys(cache).length === 240) {
           setImageCache(cache);
         }
       };
     }
-  },[weigtingFunction,distanceMetric]);
+  }, [weigtingFunction, distanceMetric]);
 
   useEffect(() => {
     if (!isPlaying) return;
@@ -51,109 +60,71 @@ export default function Home() {
     return () => clearInterval(interval);
   }, [isPlaying]);
 
+  const skipNext = () => {
+    if(value == 240) setValue(1);
+    else setValue(value + 1);
+  }
+  const skipPrevious = () => {
+    if(value == 1) setValue(240);
+    else setValue(value - 1);
+  }
+
   return (
-    <div className="flex flex-grow flex-row bg-amber-200">
-      <div className="bg-[#FFFFFF] basis-1/4 border-r-2 border-[#E9EAEB] flex flex-col items-center">
+    <div className="flex flex-grow md:flex-row flex-col">
+      <div className="bg-[#FFFFFF] basis-[22.5%] border-r-2 border-[#E9EAEB] flex flex-col items-center">
 
-        <h2 className="italic text-xl font-semibold my-2">Distance Metrics</h2>
+        <LHS buttonsList={[btndm,btnwf]} heading = "K-Nearest Neighbour" parameters={["Distance Metric","Weighting Function"]} />
 
-        <ButtonGroup
-          orientation="vertical"
-          aria-label="Vertical button group"
-          variant="contained"
-          className="w-[80%]"
-        >
-          {buttons_dm}
-        </ButtonGroup>
-
-        <h2 className="italic text-xl font-semibold my-2">Weighting Function</h2>
-
-        <ButtonGroup
-          orientation="vertical"
-          aria-label="Vertical button group"
-          variant="contained"
-          className="w-[80%]"
-        >
-          {buttons_wf}
-        </ButtonGroup>
+        <Link/>
 
       </div>
-      <div className="basis-3/4 bg-[#FAFAFA] flex flex-col p-5 px-9 items-center overflow-y-auto h-[87vh]" id = "navin">
+      <div className="basis-[77.5%] bg-[#FAFAFA] flex flex-col p-5 px-9 items-center overflow-y-auto h-[87vh]">
 
-        <div className="w-[80%] mt-1 flex flex-col items-center">
-
-          <div className="mb-2">
-            <span className="font-bold italic text-xl">Distance-Metric:</span>  
-            <span className="text-xl">&nbsp; {distanceMetric}</span>  
-          </div>
-
-          <div className="mb-3">
-            <span className="font-bold italic text-xl">Weigthing-Function:</span>  
-            <span className="text-xl">&nbsp; {weigtingFunction}</span>  
-          </div>
-
-
-          <div className="mb-1 flex flex-row w-full items-center justify-center">
-
-            <div className="basis-1/5">
-              <span className="font-bold italic text-xl">K-Value:</span>  
-              <span className="text-xl">&nbsp; {value}</span>  
-            </div>
-
-            <div className="basis-1/5">
-              <span className="font-bold italic text-xl">Error:</span>  
-              <span className="text-xl">&nbsp; {value}</span>  
-            </div>
-
-            <div className="basis-1/5">
-              <span className="font-bold italic text-xl">Accuracy:</span>  
-              <span className="text-xl">&nbsp; {value}</span>  
-            </div>
-           
-          </div>
-
-          <Slider 
-            value={value} 
-            onChange={(_, newValue) => setValue(newValue as number)} 
-            aria-label="Default" 
-            valueLabelDisplay="auto" 
-            min={1} 
-            max={240} 
+        <div className="w-[80%] mt-1 flex flex-col items-center bg-white border-1 border-[#E9EAEB] rounded-lg p-4">
+          
+          <AttributeList AttributeInfo={
+              [[{label: "Distance Metric", value:  distanceMetric, num: 2},
+                {label: "Weigthing Function", value:  weigtingFunction, num: 2}],
+               [{label: "K Value", value:  value.toString(), num: 3},
+                {label: "Error", value:  value.toString(), num: 3},
+                {label: "Accuracy", value:  value.toString(), num: 3}]
+              ]
+            }
           />
 
-          <Button 
-            variant="contained" 
-            onClick={() => setIsPlaying(!isPlaying)} 
-            sx={{ mt: 1,mb: 2,fontFamily: "var(--font-plexmono);",textTransform: "none",fontSize: "large" }}
-          >
-            {isPlaying ? "Pause" : "Resume"}
-          </Button>
+          <Slider
+            value={value}
+            onChange={(_, newValue) => setValue(newValue as number)}
+            aria-label="Default"
+            valueLabelDisplay="auto"
+            min={1}
+            max={240}
+          />
+
+          <div className="flex">
+
+          <IconButton onClick={() => skipPrevious()} color="primary">
+            <SkipPrevious sx={{ fontSize: 50 }} /> 
+          </IconButton>
+
+          <IconButton onClick={() => setIsPlaying(!isPlaying)} color="primary">
+            {isPlaying ? <PauseCircle sx={{ fontSize: 50 }} /> : <PlayCircleFilled sx={{ fontSize: 50 }} />}
+          </IconButton>
+
+          <IconButton onClick={() => skipNext()} color="primary">
+            <SkipNext sx={{ fontSize: 50 }} /> 
+          </IconButton>
+
+          </div>
+
 
         </div>
 
-        <div className="flex flex-row w-full">
+        <div className="flex md:flex-row flex-col w-full mt-3 justify-between">
 
-          <div className="basis-1/2 flex flex-col items-center">
+          <ImageDisplay image = {imageInfo} source = {imageCache[value]} />
 
-            <h1 className="text-2xl my-2 font-semibold">Descision Boundary</h1>
-
-            {imageCache[value] ? (
-              <img 
-                src={imageCache[value]} 
-                width={500} 
-                height={500} 
-                alt="K-Value"
-              />
-            ) : (
-              <p>Loading Image...</p>
-            )}
-          </div>
-
-          <div className="basis-1/2 flex flex-col items-center">
-
-            <h1 className="text-2xl my-2 font-semibold">Error Graph w.r.t to K</h1>
-
-          </div>
+          <BasicLineChart />
 
         </div>
 
