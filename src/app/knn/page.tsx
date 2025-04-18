@@ -11,9 +11,17 @@ import LHS from "@/components/LHS";
 import Link from "@/components/link"
 import AttributeList from "@/components/AttributeList";
 import { IconButton } from "@mui/material";
-import { PlayCircleFilled , PauseCircle , SkipNext, SkipPrevious } from "@mui/icons-material";
+import { PlayCircleFilled, PauseCircle, SkipNext, SkipPrevious } from "@mui/icons-material";
+import Papa from "papaparse";
 
-const imageInfo = {width:420, height:420, heading: "Decision Boundary",alt: "K Value"};
+
+const imageInfo = { width: 420, height: 420, heading: "Decision Boundary", alt: "K Value" };
+interface CsvRow {
+  k_value: string;
+  accuracy: string;
+}
+
+type DataDictionary = Record<string, CsvRow>;
 
 export default function KNN() {
   const [value, setValue] = useState<number>(1);
@@ -21,22 +29,26 @@ export default function KNN() {
   const [imageCache, setImageCache] = useState<Record<number, string>>({});
   const [distanceMetric, setDistanceMetric] = useState<string>("Manhattan");
   const [weigtingFunction, setweigtingFunction] = useState<string>("Uniform");
+  const [dataDict, setDataDict] = useState<DataDictionary>({});
+  const [acc, setAcc] = useState<number[]>([]);
+  const [arr, setArr] = useState<number[]>([]);
 
   const btndm = [
-    {name: "Manhattan", func: () => setDistanceMetric("Manhattan")},
-    {name: "Cosine", func: () => setDistanceMetric("Cosine")},
-    {name: "Euclidean", func: () => setDistanceMetric("Euclidean")}
+    { name: "Manhattan", func: () => setDistanceMetric("Manhattan") },
+    { name: "Cosine", func: () => setDistanceMetric("Cosine") },
+    { name: "Euclidean", func: () => setDistanceMetric("Euclidean") }
   ];
 
   const btnwf = [
-    {name: "Uniform", func: () => setweigtingFunction("Uniform")},
-    {name: "Distance", func: () => setweigtingFunction("Distance")}
+    { name: "Uniform", func: () => setweigtingFunction("Uniform") },
+    { name: "Distance", func: () => setweigtingFunction("Distance") }
   ];
 
   useEffect(() => {
     const cache: Record<number, string> = {};
 
     for (let i = 1; i <= 240; i++) {
+      //change this for new model
       const imgSrc = `/knn_${weigtingFunction == "Distance" ? "d" : "u"}${distanceMetric[0].toLowerCase()}/_${weigtingFunction.toLowerCase()}_${distanceMetric.toLowerCase()}_${i}.png`;
       const img = new window.Image();
       img.src = imgSrc;
@@ -51,8 +63,52 @@ export default function KNN() {
   }, [weigtingFunction, distanceMetric]);
 
   useEffect(() => {
-    if (!isPlaying) return;
+    const fetchData = async () => {
+      try {
+        const response = await fetch(`/knn_acc_${weigtingFunction[0].toLowerCase()}${distanceMetric[0].toLowerCase()}.csv`);
+        const csvText = await response.text();
 
+        Papa.parse(csvText, {
+          header: true, 
+          skipEmptyLines: true,
+          complete: (result) => {
+            const dataObject: DataDictionary = {};
+            (result.data as CsvRow[]).forEach((row) => {
+              dataObject[row.k_value] = row;
+            });
+            setDataDict(dataObject);
+          },
+        });
+
+      } catch (error) {
+        console.error("Error loading CSV:", error);
+      }
+    };
+
+    fetchData();
+  }, [weigtingFunction, distanceMetric]);
+
+  useEffect(() => {
+    const list: number[] = []
+    for (let i = 0; i < 240; i++) {
+      list.push(i);
+    }
+    setArr(list)
+
+    const acc_list: number[] = []
+    acc_list.push(1)
+    for (let i = 1; i < 240; i++) {
+      acc_list.push(1 - parseFloat(dataDict[i.toString()]?.accuracy));
+      console.log(dataDict[i.toString()]?.accuracy)
+    }
+
+    console.log(acc_list)
+    setAcc(acc_list)
+  }, [dataDict])
+
+  useEffect(() => {
+    if (!isPlaying) return;
+    //240 because thats the totsl number of images in knn
     const interval = setInterval(() => {
       setValue((prev) => (prev < 240 ? prev + 1 : 1));
     }, 100);
@@ -61,11 +117,12 @@ export default function KNN() {
   }, [isPlaying]);
 
   const skipNext = () => {
-    if(value == 240) setValue(1);
+    if (value == 240) setValue(1);
     else setValue(value + 1);
   }
+
   const skipPrevious = () => {
-    if(value == 1) setValue(240);
+    if (value == 1) setValue(240);
     else setValue(value - 1);
   }
 
@@ -73,23 +130,22 @@ export default function KNN() {
     <div className="flex flex-grow md:flex-row flex-col">
       <div className="bg-[#FFFFFF] basis-[22.5%] border-r-2 border-[#E9EAEB] flex flex-col items-center">
 
-        <LHS buttonsList={[btndm,btnwf]} heading = "K-Nearest Neighbour" parameters={["Distance Metric","Weighting Function"]} />
+        <LHS buttonsList={[btndm, btnwf]} heading="K-Nearest Neighbour" parameters={["Distance Metric", "Weighting Function"]} />
 
-        <Link/>
+        <Link />
 
       </div>
       <div className="basis-[77.5%] bg-[#FAFAFA] flex flex-col p-5 px-9 items-center overflow-y-auto h-[87vh]">
-
+      
         <div className="w-[80%] mt-1 flex flex-col items-center bg-white border-1 border-[#E9EAEB] rounded-lg p-4">
-          
+          {/* for the info above the play button. 1st list is for 1st row and 2nd list is for 2nd row*/}
           <AttributeList AttributeInfo={
-              [[{label: "Distance Metric", value:  distanceMetric, num: 2},
-                {label: "Weigthing Function", value:  weigtingFunction, num: 2}],
-               [{label: "K Value", value:  value.toString(), num: 3},
-                {label: "Error", value:  value.toString(), num: 3},
-                {label: "Accuracy", value:  value.toString(), num: 3}]
-              ]
-            }
+            [[{ label: "Distance Metric", value: distanceMetric, num: 2 },
+            { label: "Weigthing Function", value: weigtingFunction, num: 2 }],
+            [{ label: "K Value", value: value.toString(), num: 3 },
+            { label: "Error", value: (1 - Number(dataDict[value.toString()]?.accuracy)).toString(), num: 3 },
+            { label: "Accuracy", value: Number(dataDict[value.toString()]?.accuracy).toString(), num: 3 }]]
+          }
           />
 
           <Slider
@@ -103,17 +159,17 @@ export default function KNN() {
 
           <div className="flex">
 
-          <IconButton onClick={() => skipPrevious()} color="primary">
-            <SkipPrevious sx={{ fontSize: 50 }} /> 
-          </IconButton>
+            <IconButton onClick={() => skipPrevious()} color="primary">
+              <SkipPrevious sx={{ fontSize: 50 }} />
+            </IconButton>
 
-          <IconButton onClick={() => setIsPlaying(!isPlaying)} color="primary">
-            {isPlaying ? <PauseCircle sx={{ fontSize: 50 }} /> : <PlayCircleFilled sx={{ fontSize: 50 }} />}
-          </IconButton>
+            <IconButton onClick={() => setIsPlaying(!isPlaying)} color="primary">
+              {isPlaying ? <PauseCircle sx={{ fontSize: 50 }} /> : <PlayCircleFilled sx={{ fontSize: 50 }} />}
+            </IconButton>
 
-          <IconButton onClick={() => skipNext()} color="primary">
-            <SkipNext sx={{ fontSize: 50 }} /> 
-          </IconButton>
+            <IconButton onClick={() => skipNext()} color="primary">
+              <SkipNext sx={{ fontSize: 50 }} />
+            </IconButton>
 
           </div>
 
@@ -122,9 +178,9 @@ export default function KNN() {
 
         <div className="flex md:flex-row flex-col w-full mt-3 justify-between">
 
-          <ImageDisplay image = {imageInfo} source = {imageCache[value]} />
+          <ImageDisplay image={imageInfo} source={imageCache[value]} />
 
-          <BasicLineChart />
+          <BasicLineChart x={arr} y={acc} mark={value} />
 
         </div>
 

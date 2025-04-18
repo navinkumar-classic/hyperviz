@@ -48,7 +48,9 @@ export const options = {
     },
 };
 
-export default function LineGraph() {
+export default function LineGraph({x}:{x:string}) {
+
+    console.log(x)
     return (
         <>
             <div className="basis-1/2 flex flex-col items-center bg-white border-1 border-[#E9EAEB] rounded-lg p-3 justify-center">
