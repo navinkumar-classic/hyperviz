@@ -17,10 +17,11 @@ type LinearRegressionProps = {
     r2func: React.Dispatch<React.SetStateAction<number>>;
     maefunc: React.Dispatch<React.SetStateAction<number>>;
     rmsefunc: React.Dispatch<React.SetStateAction<number>>;
-    reg: string
+    reg: string;
+    lambda: number;
 };
 
-export default function LinearRegression({ r2func, maefunc, rmsefunc, reg }: LinearRegressionProps) {
+export default function LinearRegression({ r2func, maefunc, rmsefunc, reg, lambda }: LinearRegressionProps) {
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
   const [points, setPoints] = useState<Point[]>([]);
 
@@ -45,7 +46,7 @@ export default function LinearRegression({ r2func, maefunc, rmsefunc, reg }: Lin
     return { m, b };
   }
 
-  function calculateRidgeRegression(points: Point[], lambda: number = 10) {
+  function calculateRidgeRegression(points: Point[], lambda: number = 1) {
     const n = points.length;
     if (n === 0) return null;
   
@@ -164,7 +165,7 @@ export default function LinearRegression({ r2func, maefunc, rmsefunc, reg }: Lin
       ctx.fill();
     }
 
-    const regression = reg == 'None' ? calculateLinearRegression(points): calculateRidgeRegression(points);
+    const regression = reg == 'None' ? calculateLinearRegression(points): calculateRidgeRegression(points, lambda);
     if (regression) {
       const { m, b } = regression;
 

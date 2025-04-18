@@ -7,6 +7,7 @@ import LHS from "@/components/LHS";
 import Link from "@/components/link"
 import AttributeList from "@/components/AttributeList";
 import LinearRegression from "@/components/linearRegression";
+import TextField from '@mui/material/TextField';
 
 
 export default function KNN() {
@@ -15,7 +16,7 @@ export default function KNN() {
   const [rmse, setRmse] = useState<number>(0);
   const [mae, setMae] = useState<number>(0);
   const [regularisation, setRegularisation] = useState<string>("None");
-  const [weigtingFunction, setweigtingFunction] = useState<string>("Uniform");
+  const [lambda, setLambda] = useState<number>(1);
 
   const btndm = [
     { name: "None", func: () => setRegularisation("None") },
@@ -27,6 +28,9 @@ export default function KNN() {
       <div className="bg-[#FFFFFF] basis-[22.5%] border-r-2 border-[#E9EAEB] flex flex-col items-center">
 
         <LHS buttonsList={[btndm]} heading="Linear Regression" parameters={["Regularisation"]} />
+
+        <TextField id="filled-basic" label="Ridge - λ" variant="standard" className="w-[80%]" value={lambda}
+        onChange={(e) => setLambda(Number(e.target.value))}  />
 
         <Link />
 
@@ -45,10 +49,11 @@ export default function KNN() {
 
 
         </div>
-
+        <h1 className="mt-2 italic">Click Anywhere To Place Points</h1>
         <div className="flex md:flex-row flex-col w-full mt-3 justify-between">
 
-          <LinearRegression r2func={setR2} rmsefunc = {setRmse} maefunc = {setMae} reg = {regularisation}/>
+          <LinearRegression r2func={setR2} rmsefunc = {setRmse} maefunc = {setMae} reg = {regularisation} lambda = {lambda} 
+          />
 
 
         </div>
