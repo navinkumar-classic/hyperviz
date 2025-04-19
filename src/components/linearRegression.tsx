@@ -196,7 +196,7 @@ export default function LinearRegression({ r2func, maefunc, rmsefunc, reg, lambd
       maefunc(mae)
       rmsefunc(rmse)
     }
-  }, [points, reg]);
+  }, [points, reg, lambda]);
 
   const handleClick = (e: React.MouseEvent<HTMLCanvasElement>) => {
     const rect = e.currentTarget.getBoundingClientRect();
@@ -204,8 +204,8 @@ export default function LinearRegression({ r2func, maefunc, rmsefunc, reg, lambd
     const pixelY = e.clientY - rect.top;
 
     // Convert pixel to graph coordinates
-    const x = Math.round((pixelX - MARGIN_LEFT) / UNIT);
-    const y = Math.round((CANVAS_HEIGHT - MARGIN_BOTTOM - pixelY) / UNIT);
+    const x = (pixelX - MARGIN_LEFT) / UNIT;
+    const y = (CANVAS_HEIGHT - MARGIN_BOTTOM - pixelY) / UNIT;
 
     if (x >= 0 && x <= X_RANGE && y >= 0 && y <= Y_RANGE) {
       setPoints(prev => [...prev, { x, y }]);

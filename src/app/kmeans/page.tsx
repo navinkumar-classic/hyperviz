@@ -23,8 +23,11 @@ interface CsvRow {
 
 type DataDictionary = Record<string, CsvRow>;
 
+const HIGH = 10;
+const LOW = 2;
+
 export default function KNN() {
-  const [value, setValue] = useState<number>(2);
+  const [value, setValue] = useState<number>(LOW);
   const [isPlaying, setIsPlaying] = useState<boolean>(false);
   const [imageCache, setImageCache] = useState<Record<number, string>>({});
   const [init, setInit] = useState<string>("Random");
@@ -46,7 +49,7 @@ export default function KNN() {
   useEffect(() => {
     const cache: Record<number, string> = {};
 
-    for (let i = 2; i <= 10; i++) {
+    for (let i = LOW; i <= HIGH; i++) {
       //change this for new model
       const imgSrc = `/kmeans_${init == "Random" ? "r" : "k"}${algo[0].toLowerCase()}/_${init.toLowerCase()}_${algo.toLowerCase()}_${i}.png`;
       const img = new window.Image();
@@ -57,7 +60,7 @@ export default function KNN() {
         console.log(cache[i])
         console.log(Object.keys(cache).length)
 
-        if (Object.keys(cache).length === 9) {
+        if (Object.keys(cache).length === HIGH - LOW + 1) {
           setImageCache(cache)
           console.log(cache)
           console.log(imageCache)
@@ -96,14 +99,13 @@ export default function KNN() {
 
   useEffect(() => {
     const list: number[] = []
-    for (let i = 0; i < 240; i++) {
+    for (let i = LOW; i <= HIGH; i++) {
       list.push(i);
     }
     setArr(list)
 
     const acc_list: number[] = []
-    acc_list.push(1)
-    for (let i = 1; i < 240; i++) {
+    for (let i = LOW; i <= HIGH; i++) {
       acc_list.push(1 - parseFloat(dataDict[i.toString()]?.accuracy));
       console.log(dataDict[i.toString()]?.accuracy)
     }
@@ -114,21 +116,20 @@ export default function KNN() {
 
   useEffect(() => {
     if (!isPlaying) return;
-    //240 because thats the totsl number of images in knn
     const interval = setInterval(() => {
-      setValue((prev) => (prev < 10 ? prev + 1 : 2));
+      setValue((prev) => (prev < HIGH ? prev + 1 : LOW));
     }, 900);
 
     return () => clearInterval(interval);
   }, [isPlaying]);
 
   const skipNext = () => {
-    if (value == 10) setValue(2);
+    if (value == HIGH) setValue(LOW);
     else setValue(value + 1);
   }
 
   const skipPrevious = () => {
-    if (value == 2) setValue(10);
+    if (value == LOW) setValue(HIGH);
     else setValue(value - 1);
   }
 
@@ -186,7 +187,7 @@ export default function KNN() {
 
           <ImageDisplay image={imageInfo} source={imageCache[value]} />
 
-          <BasicLineChart x={arr} y={acc} mark={value} />
+          <BasicLineChart x={arr} y={acc} mark={value} label = {'Test Loss'} />
 
         </div>
 

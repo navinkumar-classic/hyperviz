@@ -180,7 +180,7 @@ export default function KNN() {
 
           <ImageDisplay image={imageInfo} source={imageCache[value]} />
 
-          <BasicLineChart x={arr} y={acc} mark={value} />
+          <BasicLineChart x={arr} y={acc} mark={value} label = {'Error Graph'} />
 
         </div>
 
