@@ -19,11 +19,18 @@ type LinearRegressionProps = {
     rmsefunc: React.Dispatch<React.SetStateAction<number>>;
     reg: string;
     lambda: number;
+    clearTrigger: Boolean
 };
 
-export default function LinearRegression({ r2func, maefunc, rmsefunc, reg, lambda }: LinearRegressionProps) {
+export default function LinearRegression({ r2func, maefunc, rmsefunc, reg, lambda, clearTrigger }: LinearRegressionProps) {
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
   const [points, setPoints] = useState<Point[]>([]);
+
+  useEffect(() => {
+  
+    setPoints([])
+    
+  },[clearTrigger])
 
   function calculateLinearRegression(points: Point[]) {
     const n = points.length;

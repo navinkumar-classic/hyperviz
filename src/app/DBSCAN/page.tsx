@@ -8,6 +8,7 @@ import Link from "@/components/link"
 import AttributeList from "@/components/AttributeList";
 import DBSCAN from "@/components/DBSCAN";
 import TextField from '@mui/material/TextField';
+import { clear } from "console";
 
 
 export default function KNN() {
@@ -18,6 +19,7 @@ export default function KNN() {
   const [outlier, setOutlier] = useState<number>(0);
   const [eps, setEps] = useState<number>(1);
   const [K, setK] = useState<number>(3);
+  const [clearTrigger, setClearTrigger] = useState<Boolean>(true);
 
   
 
@@ -45,6 +47,9 @@ export default function KNN() {
         </div>
 
         <Button variant="contained" className="py-5" color="inherit" onClick={(e)=>setValue(!value)}>Classify The Points</Button>
+        <div className="mt-2">
+          <Button variant="contained" className="py-5" color="inherit" onClick={(e)=>setClearTrigger(!clearTrigger)}>Clear The Graph</Button>  
+        </div>
 
         <Link />
 
@@ -70,7 +75,7 @@ export default function KNN() {
         <h1 className="mt-2 italic">Click Anywhere To Place Points</h1>
         <div className="flex md:flex-row flex-col w-full mt-3 justify-between">
 
-          <DBSCAN core={setCore} boundary = {setBoundary} outlier={setOutlier} silh = {setSilhouette} eps = {eps} k = {K} flag = {value}/>
+          <DBSCAN core={setCore} boundary = {setBoundary} outlier={setOutlier} silh = {setSilhouette} clearTrigger={clearTrigger} eps = {eps} k = {K} flag = {value}/>
 
 
         </div>

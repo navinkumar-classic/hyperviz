@@ -23,12 +23,16 @@ interface CsvRow {
 
 type DataDictionary = Record<string, CsvRow>;
 
+const LOW = 1;
+const HIGH = 20;
+
 export default function KNN() {
   const [value, setValue] = useState<number>(1);
   const [isPlaying, setIsPlaying] = useState<boolean>(false);
   const [imageCache, setImageCache] = useState<Record<number, string>>({});
   const [distanceMetric, setDistanceMetric] = useState<string>("Manhattan");
   const [weigtingFunction, setweigtingFunction] = useState<string>("Uniform");
+  const [dataset, setDataset] = useState<string>("Random");
   const [dataDict, setDataDict] = useState<DataDictionary>({});
   const [acc, setAcc] = useState<number[]>([]);
   const [arr, setArr] = useState<number[]>([]);
@@ -44,28 +48,35 @@ export default function KNN() {
     { name: "Distance", func: () => setweigtingFunction("Distance") }
   ];
 
+  const btndb = [
+    { name: "Random", func: () => setDataset("Random") },
+    { name: "Moons", func: () => setDataset("Moons") },
+    { name: "Circles", func: () => setDataset("Circles") },
+    { name: "Blobs", func: () => setDataset("Blobs") }
+  ];
+
   useEffect(() => {
     const cache: Record<number, string> = {};
 
-    for (let i = 1; i <= 240; i++) {
+    for (let i = LOW; i <= HIGH; i++) {
       //change this for new model
-      const imgSrc = `/knn_${weigtingFunction == "Distance" ? "d" : "u"}${distanceMetric[0].toLowerCase()}/_${weigtingFunction.toLowerCase()}_${distanceMetric.toLowerCase()}_${i}.png`;
+      const imgSrc = `/KNN/${dataset.toLowerCase()}/${dataset == "Random" ? "og": dataset.toLowerCase()}_${distanceMetric.toLowerCase()}_${weigtingFunction.toLowerCase()}_k${i}.png`;
       const img = new window.Image();
       img.src = imgSrc;
       img.onload = () => {
         cache[i] = imgSrc;
 
-        if (Object.keys(cache).length === 240) {
+        if (Object.keys(cache).length === HIGH - LOW + 1) {
           setImageCache(cache);
         }
       };
     }
-  }, [weigtingFunction, distanceMetric]);
+  }, [weigtingFunction, distanceMetric, dataset]);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetch(`/knn_acc_${weigtingFunction[0].toLowerCase()}${distanceMetric[0].toLowerCase()}.csv`);
+        const response = await fetch(`/KNN_acc/${dataset.toLowerCase()}_knn_acc_${weigtingFunction[0].toLowerCase()}${distanceMetric[0].toLowerCase()}.csv`);
         const csvText = await response.text();
 
         Papa.parse(csvText, {
@@ -86,18 +97,17 @@ export default function KNN() {
     };
 
     fetchData();
-  }, [weigtingFunction, distanceMetric]);
+  }, [weigtingFunction, distanceMetric, dataset]);
 
   useEffect(() => {
     const list: number[] = []
-    for (let i = 0; i < 240; i++) {
+    for (let i = LOW; i <= HIGH; i++) {
       list.push(i);
     }
     setArr(list)
 
     const acc_list: number[] = []
-    acc_list.push(1)
-    for (let i = 1; i < 240; i++) {
+    for (let i = LOW; i < HIGH; i++) {
       acc_list.push(1 - parseFloat(dataDict[i.toString()]?.accuracy));
       console.log(dataDict[i.toString()]?.accuracy)
     }
@@ -110,19 +120,19 @@ export default function KNN() {
     if (!isPlaying) return;
     //240 because thats the totsl number of images in knn
     const interval = setInterval(() => {
-      setValue((prev) => (prev < 240 ? prev + 1 : 1));
+      setValue((prev) => (prev < HIGH ? prev + 1 : LOW));
     }, 100);
 
     return () => clearInterval(interval);
   }, [isPlaying]);
 
   const skipNext = () => {
-    if (value == 240) setValue(1);
+    if (value == HIGH) setValue(LOW);
     else setValue(value + 1);
   }
 
   const skipPrevious = () => {
-    if (value == 1) setValue(240);
+    if (value == LOW) setValue(HIGH);
     else setValue(value - 1);
   }
 
@@ -130,7 +140,7 @@ export default function KNN() {
     <div className="flex flex-grow md:flex-row flex-col">
       <div className="bg-[#FFFFFF] basis-[22.5%] border-r-2 border-[#E9EAEB] flex flex-col items-center">
 
-        <LHS buttonsList={[btndm, btnwf]} heading="K-Nearest Neighbour" parameters={["Distance Metric", "Weighting Function"]} />
+        <LHS buttonsList={[btndm, btnwf, btndb]} heading="K-Nearest Neighbour" parameters={["Distance Metric", "Weighting Function", "Dataset"]} />
 
         <Link />
 
@@ -153,8 +163,8 @@ export default function KNN() {
             onChange={(_, newValue) => setValue(newValue as number)}
             aria-label="Default"
             valueLabelDisplay="auto"
-            min={1}
-            max={240}
+            min={LOW}
+            max={HIGH}
           />
 
           <div className="flex">

@@ -127,12 +127,20 @@ type LinearRegressionProps = {
   eps: number;
   k: number;
   flag: Boolean;
+  clearTrigger: Boolean;
 };
 
-export default function DBSCAN({ core, boundary, silh, outlier, eps, k, flag}: LinearRegressionProps) {
+export default function DBSCAN({ core, boundary, silh, outlier, eps, k, flag, clearTrigger}: LinearRegressionProps) {
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
   const [points, setPoints] = useState<Point[]>([]);
   const [clusters, setClusters] = useState<number[]>([]);
+
+  useEffect(() => {
+  
+    setPoints([])
+    setClusters([])
+  
+  },[clearTrigger])
 
   useEffect(() => {
     const canvas = canvasRef.current;

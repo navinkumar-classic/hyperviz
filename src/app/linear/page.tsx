@@ -17,6 +17,7 @@ export default function KNN() {
   const [mae, setMae] = useState<number>(0);
   const [regularisation, setRegularisation] = useState<string>("None");
   const [lambda, setLambda] = useState<number>(1);
+  const [clearTrigger, setClearTrigger] = useState<Boolean>(true);
 
   const btndm = [
     { name: "None", func: () => setRegularisation("None") },
@@ -30,7 +31,11 @@ export default function KNN() {
         <LHS buttonsList={[btndm]} heading="Linear Regression" parameters={["Regularisation"]} />
 
         <TextField id="filled-basic" label="Ridge - λ" variant="standard" className="w-[80%]" value={lambda}
-        onChange={(e) => setLambda(Number(e.target.value))}  />
+        onChange={(e) => setLambda(Number(e.target.value))} type="number" inputProps={{ step: "any" }} />
+
+        <div className="mt-3">
+          <Button variant="contained" className="py-5" color="inherit" onClick={(e)=>setClearTrigger(!clearTrigger)}>Clear The Graph</Button>  
+        </div>
 
         <Link />
 
@@ -52,7 +57,7 @@ export default function KNN() {
         <h1 className="mt-2 italic">Click Anywhere To Place Points</h1>
         <div className="flex md:flex-row flex-col w-full mt-3 justify-between">
 
-          <LinearRegression r2func={setR2} rmsefunc = {setRmse} maefunc = {setMae} reg = {regularisation} lambda = {lambda} 
+          <LinearRegression r2func={setR2} rmsefunc = {setRmse} maefunc = {setMae} clearTrigger = {clearTrigger} reg = {regularisation} lambda = {lambda} 
           />
 
 

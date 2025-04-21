@@ -1,193 +1,105 @@
 "use client";
 
 import Image from "next/image";
-import { Slider } from "@mui/material";
 import { useState, useEffect } from "react";
 import { Button, ButtonGroup, Box } from "@mui/material";
-import ImageDisplay from "@/components/imageDisplay"
-import LineGraph from "@/components/lineGraph";
-import BasicLineChart from "@/components/basicLineGraph";
 import LHS from "@/components/LHS";
 import Link from "@/components/link"
 import AttributeList from "@/components/AttributeList";
-import { IconButton } from "@mui/material";
-import { PlayCircleFilled, PauseCircle, SkipNext, SkipPrevious } from "@mui/icons-material";
-import Papa from "papaparse";
+import Kmeans from '@/components/Kmeans'
+import TextField from '@mui/material/TextField';
+import BasicLineChart from "@/components/basicLineGraph";
 
-
-const imageInfo = { width: 420, height: 420, heading: "Decision Boundary", alt: "K Value" };
-interface CsvRow {
-  k_value: string;
-  accuracy: string;
-}
-
-type DataDictionary = Record<string, CsvRow>;
-
-const HIGH = 10;
-const LOW = 2;
 
 export default function KNN() {
-  const [value, setValue] = useState<number>(LOW);
-  const [isPlaying, setIsPlaying] = useState<boolean>(false);
-  const [imageCache, setImageCache] = useState<Record<number, string>>({});
-  const [init, setInit] = useState<string>("Random");
-  const [algo, setAlgo] = useState<string>("Lloyd");
-  const [dataDict, setDataDict] = useState<DataDictionary>({});
-  const [acc, setAcc] = useState<number[]>([]);
-  const [arr, setArr] = useState<number[]>([]);
+  const [value, setValue] = useState<Boolean>(true);
+  const [core, setCore] = useState<number>(0);
+  const [silhouette, setSilhouette] = useState<number>(0);
+  const [init, setInit] = useState<string>('None');
+  const [K, setK] = useState<number>(1);
+  const [maxI, setMaxI] = useState<number>(10);
+  const [acc, setAcc] = useState<number[]>([0,0,0,0,0,0,0,0,0]);
+  const [arr, setArr] = useState<number[]>([1,2,3,4,5,6,8,9,10]);
+  const [clearTrigger, setClearTrigger] = useState<Boolean>(true);
 
   const btndm = [
-    { name: "Random", func: () => setInit("Random") },
-    { name: "K-means++", func: () => setInit("K-means++") }
+    { name: "None", func: () => setInit("None") },
+    { name: "Kmeans++", func: () => setInit("Kmeans++") },
   ];
 
-  const btnwf = [
-    { name: "Lloyd", func: () => setAlgo("Lloyd") },
-    { name: "Elkan", func: () => setAlgo("Elkan") }
-  ];
+  /*
+  useEffect(()=>{
 
-  useEffect(() => {
-    const cache: Record<number, string> = {};
-
-    for (let i = LOW; i <= HIGH; i++) {
-      //change this for new model
-      const imgSrc = `/kmeans_${init == "Random" ? "r" : "k"}${algo[0].toLowerCase()}/_${init.toLowerCase()}_${algo.toLowerCase()}_${i}.png`;
-      const img = new window.Image();
-      img.src = imgSrc;
-      img.onload = () => {
-        cache[i] = imgSrc;
-
-        console.log(cache[i])
-        console.log(Object.keys(cache).length)
-
-        if (Object.keys(cache).length === HIGH - LOW + 1) {
-          setImageCache(cache)
-          console.log(cache)
-          console.log(imageCache)
-        }
-      };
+    const arr = [];
+    setArr([])
+    setAcc([])
+    for (let i = 1; i <= 10; i++) {
+      arr.push(i);
+      acc.push(0);
     }
+    setArr(arr)
+    setAcc(acc)
 
-    console.log(imageCache)
-  }, [init, algo]);
-
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await fetch(`/knn_acc_${init[0].toLowerCase()}${algo[0].toLowerCase()}.csv`);
-        const csvText = await response.text();
-
-        Papa.parse(csvText, {
-          header: true, 
-          skipEmptyLines: true,
-          complete: (result) => {
-            const dataObject: DataDictionary = {};
-            (result.data as CsvRow[]).forEach((row) => {
-              dataObject[row.k_value] = row;
-            });
-            setDataDict(dataObject);
-          },
-        });
-
-      } catch (error) {
-        console.error("Error loading CSV:", error);
-      }
-    };
-
-    fetchData();
-  }, [init, algo]);
+  },[])
+  */
 
   useEffect(() => {
-    const list: number[] = []
-    for (let i = LOW; i <= HIGH; i++) {
-      list.push(i);
-    }
-    setArr(list)
-
-    const acc_list: number[] = []
-    for (let i = LOW; i <= HIGH; i++) {
-      acc_list.push(1 - parseFloat(dataDict[i.toString()]?.accuracy));
-      console.log(dataDict[i.toString()]?.accuracy)
-    }
-
-    console.log(acc_list)
-    setAcc(acc_list)
-  }, [dataDict])
-
-  useEffect(() => {
-    if (!isPlaying) return;
-    const interval = setInterval(() => {
-      setValue((prev) => (prev < HIGH ? prev + 1 : LOW));
-    }, 900);
-
-    return () => clearInterval(interval);
-  }, [isPlaying]);
-
-  const skipNext = () => {
-    if (value == HIGH) setValue(LOW);
-    else setValue(value + 1);
-  }
-
-  const skipPrevious = () => {
-    if (value == LOW) setValue(HIGH);
-    else setValue(value - 1);
-  }
+    const newAcc = [...acc]; 
+    newAcc[K - 1] = core;
+    setAcc(newAcc); 
+  }, [core]);
 
   return (
     <div className="flex flex-grow md:flex-row flex-col">
       <div className="bg-[#FFFFFF] basis-[22.5%] border-r-2 border-[#E9EAEB] flex flex-col items-center">
 
-        <LHS buttonsList={[btndm, btnwf]} heading="K-Nearest Neighbour" parameters={["Distance Metric", "Weighting Function"]} />
+        <LHS buttonsList={[btndm]} heading="K Means" parameters={["Initialization"]} />
 
+        <div className="mb-7 w-[80%]">
+
+          <TextField id="filled-basic" label="K Value" type="number" variant="standard" className="w-full" value={K}
+          onChange={(e) => setK(Number(e.target.value))}  />
+
+        </div>
+
+        <div className="mb-7 w-[80%]">
+
+          <TextField id="filled-basic" label="Max Iteration" type="number" variant="standard" className="w-full" value={maxI}
+          onChange={(e) => setMaxI(Number(e.target.value))}  />
+
+        </div>
+
+        <Button variant="contained" className="py-5" color="inherit" onClick={(e)=>setValue(!value)}>Classify The Points</Button>
+        <div className="mt-2">
+          <Button variant="contained" className="py-5" color="inherit" onClick={(e)=>setClearTrigger(!clearTrigger)}>Clear The Graph</Button>  
+        </div>
+        
         <Link />
 
       </div>
-      <div className="basis-[77.5%] bg-[#FAFAFA] flex flex-col p-5 px-9 items-center overflow-y-auto h-[87vh]">
+      <div className="basis-[77.5%] bg-[#FAFAFA] flex flex-col p-5 px-6 items-center overflow-y-auto h-[87vh]">
       
         <div className="w-[80%] mt-1 flex flex-col items-center bg-white border-1 border-[#E9EAEB] rounded-lg p-4">
           {/* for the info above the play button. 1st list is for 1st row and 2nd list is for 2nd row*/}
           <AttributeList AttributeInfo={
-            [[{ label: "Initiation", value: init, num: 2 },
-            { label: "Algorithm Function", value: algo, num: 2 }],
-            [{ label: "Clusters", value: value.toString(), num: 3 },
-            { label: "Error", value: (1 - Number(dataDict[value.toString()]?.accuracy)).toString(), num: 3 },
-            { label: "Accuracy", value: Number(dataDict[value.toString()]?.accuracy).toString(), num: 3 }]]
+            [[{ label: "K Value", value: K.toString(), num: 2 },
+              { label: "Initialization", value: init.toString(), num: 2 }
+            ],
+            [{ label: "WCSS", value: core.toString(), num: 4 },
+            { label: "Silhouette Score", value: silhouette.toString(), num: 4 },
+            ]]
           }
           />
 
-          <Slider
-            value={value}
-            onChange={(_, newValue) => setValue(newValue as number)}
-            aria-label="Default"
-            valueLabelDisplay="auto"
-            min={2}
-            max={10}
-          />
-
-          <div className="flex">
-
-            <IconButton onClick={() => skipPrevious()} color="primary">
-              <SkipPrevious sx={{ fontSize: 50 }} />
-            </IconButton>
-
-            <IconButton onClick={() => setIsPlaying(!isPlaying)} color="primary">
-              {isPlaying ? <PauseCircle sx={{ fontSize: 50 }} /> : <PlayCircleFilled sx={{ fontSize: 50 }} />}
-            </IconButton>
-
-            <IconButton onClick={() => skipNext()} color="primary">
-              <SkipNext sx={{ fontSize: 50 }} />
-            </IconButton>
-
-          </div>
-
 
         </div>
+        <h1 className="mt-5 italic">Click Anywhere To Place Points</h1>
+        <div className="flex md:flex-row flex-col w-full mt-5 justify-between">
 
-        <div className="flex md:flex-row flex-col w-full mt-3 justify-between">
+          <Kmeans core={setCore} silh = {setSilhouette} init = {init} maxI = {maxI} k = {K} flag = {value} clearTrigger={clearTrigger}/>
 
-          <ImageDisplay image={imageInfo} source={imageCache[value]} />
+          <BasicLineChart x={arr} y={acc} mark={K-1} label = {'Elbow Graph'} />
 
-          <BasicLineChart x={arr} y={acc} mark={value} label = {'Test Loss'} />
 
         </div>
 
@@ -196,3 +108,4 @@ export default function KNN() {
     </div>
   );
 }
+
