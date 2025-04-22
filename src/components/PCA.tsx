@@ -146,7 +146,7 @@ function OriginalPlot({
     <>
       <ambientLight />
       <pointLight position={[10, 10, 10]} />
-      <Axes size={5} />
+      <Axes size={30} />
       {/* Plot the original points */}
       {points.map((pos, idx) => (
         <Point key={idx} position={pos} color="blue" />
@@ -186,7 +186,6 @@ function PCAPlot({ points, onSetEigenvectors }: { points: Point3D[]; onSetEigenv
         args={[10, 10]} // size
         sectionSize={1}
         sectionColor={"gray"}
-        fadeDistance={50}
         position={[0, 0, 0]}
         rotation={[Math.PI / 2, 0, 0]} // rotate grid to XY plane
       />
@@ -205,7 +204,7 @@ function PCAPlot({ points, onSetEigenvectors }: { points: Point3D[]; onSetEigenv
               key={idx}
               direction={[vec[0], vec[1], 0]}  // Use only 2D components
               color={colors[idx % colors.length]}
-              scale={SCALE}
+              scale={20}
             />
           );
         })
@@ -213,9 +212,12 @@ function PCAPlot({ points, onSetEigenvectors }: { points: Point3D[]; onSetEigenv
     </>
   );
 }
+type Hmm = {
+  datapoints: Point3D[];
+  setEighen: React.Dispatch<React.SetStateAction<Point3D[]>>;
+};
 
-
-export default function Home() {
+export default function Home({datapoints, setEighen}: Hmm) {
   {/*Random initial data pts, can change if u want*/}
   const [data, setData] = useState<Point3D[]>([
     [2, 3, 5],
@@ -230,36 +232,50 @@ export default function Home() {
     [11, 7, 6],
   ]);
 
-  const [eigenvectors, setEigenvectors] = useState<Point3D[]>([]); // ← new state
+  const [eigenvectors, setEigenvectors] = useState<Point3D[]>([[0,0,0],[0,0,0],[0,0,0]]); // ← new state
+
+  useEffect(() => {
+
+    setData(datapoints)
+    setEigenvectors([[0,0,0],[0,0,0],[0,0,0]])
+
+  }, [datapoints])
+
+  useEffect(() => {
+
+    setEighen(eigenvectors)
+
+  }, [eigenvectors])
 
   const addPoint = (point: Point3D) => {
     setData((prev) => [...prev, point]);
   };
 
   return (
-    <div style={{ display: "flex", gap: "2rem", padding: "2rem" }}>
-      <div>
-        <h2>Original Data</h2>
-        <Canvas camera={{ position: [5, 5, 5], fov: 50 }} style={{ width: 500, height: 500 }}>
+    <div style={{ display: "flex", gap: "2rem" }} className="justify-center px-5">
+      <div className="border-2 border-[#E9EAEB] rounded flex flex-col items-center">
+        <h2 className="mb-2 text-xl font-semibold italic underline py-3">Original Data</h2>
+        <Canvas camera={{ position: [12, 12, 12], fov: 50 }} style={{ width: 500, height: 400 }}>
           <OrbitControls />
           <OriginalPlot points={data} onAddPoint={addPoint} />
         </Canvas>
       </div>
 
-      <div>
-        <h2>PCA Transformed</h2>
+      <div className="border-2 border-[#E9EAEB] rounded flex flex-col items-center ">
+        <h2 className="mb-2 text-xl font-semibold italic underline py-3">PCA Transformed</h2>
         <Canvas camera={{ position: [5, 5, 5], fov: 50 }} style={{ width: 500, height: 500 }}>
           <OrbitControls />
           <PCAPlot points={data} onSetEigenvectors={setEigenvectors} />
         </Canvas>
 
-        {/* Display eigenvectors below the PCA plot */}
+        {/* Display eigenvectors below the PCA plot 
         <div style={{ marginTop: "1rem" }}>
           <h3>Eigenvectors</h3>
           {eigenvectors.map((vec, idx) => (
             <div key={idx}>PC{idx + 1}: [{vec.map((v) => v.toFixed(2)).join(", ")}]</div>
           ))}
         </div>
+        */}
       </div>
     </div>
   );

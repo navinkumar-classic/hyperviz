@@ -128,12 +128,20 @@ type LinearRegressionProps = {
   k: number;
   flag: Boolean;
   clearTrigger: Boolean;
+  pointex: Point[];
 };
 
-export default function DBSCAN({ core, boundary, silh, outlier, eps, k, flag, clearTrigger}: LinearRegressionProps) {
+export default function DBSCAN({ core, boundary, silh, outlier, eps, k, flag, clearTrigger, pointex}: LinearRegressionProps) {
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
   const [points, setPoints] = useState<Point[]>([]);
   const [clusters, setClusters] = useState<number[]>([]);
+
+  useEffect(() => {
+    
+    setPoints(pointex)
+    setClusters([])
+
+  },[pointex])
 
   useEffect(() => {
   
@@ -193,9 +201,26 @@ export default function DBSCAN({ core, boundary, silh, outlier, eps, k, flag, cl
     points.forEach((point, idx) => {
       const canvasX = MARGIN_LEFT + point.x * UNIT;
       const canvasY = CANVAS_HEIGHT - MARGIN_BOTTOM - point.y * UNIT;
+      const label = clusters[idx];
+
+      if (clusters.length === 0 || label === undefined) {
+
+      }
+      else{
+        const neighbors = points
+          .map((p, i) => (euclidean(point, p) <= eps ? i : -1))
+          .filter(i => i !== -1);
+        if (neighbors.length >= k) {
+          ctx.beginPath();
+          ctx.strokeStyle = 'rgba(0, 0, 0, 0.1)';
+          ctx.lineWidth = 1;
+          ctx.arc(canvasX, canvasY, eps * UNIT, 0, 2 * Math.PI);
+          ctx.stroke();
+        }
+      }
+
       ctx.beginPath();
       ctx.arc(canvasX, canvasY, 5, 0, 2 * Math.PI);
-      const label = clusters[idx];
 
       if (clusters.length === 0 || label === undefined) {
         ctx.fillStyle = 'black';
@@ -203,6 +228,8 @@ export default function DBSCAN({ core, boundary, silh, outlier, eps, k, flag, cl
         ctx.fillStyle = label === -1 ? '#999' : ['red', 'blue', 'green', 'orange', 'purple'][label % 5];
       }
       ctx.fill();
+
+
     });
   }, [points, clusters]);
 
@@ -222,12 +249,16 @@ export default function DBSCAN({ core, boundary, silh, outlier, eps, k, flag, cl
 
   useEffect(()=>{
 
+    console.log(points)
+
     const newClusters = dbscan(points, eps, k);
     setClusters(newClusters.labels);
     core(newClusters.coreCount)
     boundary(newClusters.boundaryCount)
     silh(newClusters.silhouetteScore)
     outlier(newClusters.outlier)
+
+    
 
   },[eps,k,flag])
 

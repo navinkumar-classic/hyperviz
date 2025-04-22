@@ -28,6 +28,7 @@ type LinearRegressionProps = {
     k: number;
     flag: Boolean;
     clearTrigger: Boolean;
+    pointex: Point[];
 };
 
 function getRandomCentroids(points: Point[], k: number): Point[] {
@@ -160,12 +161,21 @@ function calculateWCSS(points: Point[], clusters: number[], centroids: Point[]):
 
 
 
-export default function Kmeans({ core, silh, init, maxI, k, flag, clearTrigger }: LinearRegressionProps) {
+export default function Kmeans({ core, silh, init, maxI, k, flag, clearTrigger, pointex }: LinearRegressionProps) {
     const canvasRef = useRef<HTMLCanvasElement | null>(null);
     const [points, setPoints] = useState<Point[]>([]);
     const [clusters, setClusters] = useState<number[]>([]);
     const [centroids, setCentroids] = useState<Point[]>([]);
     const [clustered, setClustered] = useState(false);
+
+    useEffect(() => {
+        
+        setPoints(pointex)
+        setClusters([])
+        setCentroids([])
+        setClustered(false)
+    
+    },[pointex])
 
     useEffect(() => {
 

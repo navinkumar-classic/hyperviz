@@ -9,7 +9,11 @@ import AttributeList from "@/components/AttributeList";
 import DBSCAN from "@/components/DBSCAN";
 import TextField from '@mui/material/TextField';
 import { clear } from "console";
+import { cluster_1, cluster_2 } from "@/components/data";
 
+const exam_1 = cluster_1
+const exam_2 = cluster_2
+type Point = { x: number; y: number };
 
 export default function KNN() {
   const [value, setValue] = useState<Boolean>(true);
@@ -20,6 +24,30 @@ export default function KNN() {
   const [eps, setEps] = useState<number>(1);
   const [K, setK] = useState<number>(3);
   const [clearTrigger, setClearTrigger] = useState<Boolean>(true);
+  const [points,setPoints] = useState<Point[]>([])
+  const [exam,setExam] = useState<string>("")
+
+  const btndm = [
+    { name: "None", func: () => setExam("") },
+    { name: "Moons", func: () => setExam("exam_1") },
+    { name: "circles", func: () => setExam("exam_2") }
+  ];
+
+  useEffect(()=>{
+
+    if (exam == ""){
+      setPoints([])
+    }
+
+    else if (exam == "exam_1"){
+      setPoints(exam_1)
+    }
+    
+    else if (exam == "exam_2"){
+      setPoints(exam_2)
+    }
+
+  },[exam])
 
   
 
@@ -27,14 +55,11 @@ export default function KNN() {
     <div className="flex flex-grow md:flex-row flex-col">
       <div className="bg-[#FFFFFF] basis-[22.5%] border-r-2 border-[#E9EAEB] flex flex-col items-center">
 
-          <div className="w-[80%] rounded-tr-2xl rounded-bl-2xl bg-white my-4 py-4 flex flex-col items-center text-black px-4 border-t-3 border-t-[#E9EAEB] border-b-3 border-b-[#E9EAEB]">
-              <div className="text-xl font-semibold text-center mb-2 pl-2">DBSCAN</div>
-              <div className="text-md font-light italic text-center pb-2">Choose Your HyperParameter</div>
-          </div>
+          <LHS buttonsList={[btndm]} heading="DBSCAN" parameters={["Example Dataset"]} />
 
         <div className="mb-5 w-[80%]">
 
-          <TextField id="filled-K" label="ε (Epsilon)" type="number" inputProps={{ step: "any" }} variant="standard" className="w-full" value={eps}
+          <TextField id="filled-K" label="ε (Epsilon)" type="number" inputProps={{ step: "0.2" }} variant="standard" className="w-full" value={eps}
           onChange={(e) => setEps(Number(e.target.value))}  /> 
 
         </div>
@@ -75,7 +100,8 @@ export default function KNN() {
         <h1 className="mt-2 italic">Click Anywhere To Place Points</h1>
         <div className="flex md:flex-row flex-col w-full mt-3 justify-between">
 
-          <DBSCAN core={setCore} boundary = {setBoundary} outlier={setOutlier} silh = {setSilhouette} clearTrigger={clearTrigger} eps = {eps} k = {K} flag = {value}/>
+          <DBSCAN core={setCore} boundary = {setBoundary} outlier={setOutlier} silh = {setSilhouette} clearTrigger={clearTrigger} eps = {eps} k = {K} flag = {value}
+          pointex = {points}/>
 
 
         </div>

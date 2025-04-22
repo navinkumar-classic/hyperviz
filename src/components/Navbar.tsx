@@ -48,6 +48,7 @@ export default function Navbar() {
               <MenuItem value="neural">Neural Network: MLP</MenuItem>
               <MenuItem value="Qlearning">Reinforcement Learning</MenuItem>
               <MenuItem value="PCA">PCA</MenuItem>
+              <MenuItem value="SOM">SOM</MenuItem>
             </Select>
           </FormControl>
 

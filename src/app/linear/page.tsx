@@ -22,13 +22,14 @@ export default function KNN() {
   const btndm = [
     { name: "None", func: () => setRegularisation("None") },
     { name: "Ridge", func: () => setRegularisation("Ridge") },
+    {name: "Polynomial", func: () => setRegularisation("Polynomial") }
   ];
 
   return (
     <div className="flex flex-grow md:flex-row flex-col">
       <div className="bg-[#FFFFFF] basis-[22.5%] border-r-2 border-[#E9EAEB] flex flex-col items-center">
 
-        <LHS buttonsList={[btndm]} heading="Linear Regression" parameters={["Regularisation"]} />
+        <LHS buttonsList={[btndm]} heading="Linear Regression" parameters={["Type of Regression"]} />
 
         <TextField id="filled-basic" label="Ridge - λ" variant="standard" className="w-[80%]" value={lambda}
         onChange={(e) => setLambda(Number(e.target.value))} type="number" inputProps={{ step: "any" }} />
