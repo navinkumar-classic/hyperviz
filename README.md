@@ -1,3 +1,52 @@
+
+# 🧠 HYPERVIZ
+
+A web-based interactive platform for **dynamic visualization of Machine Learning models**. Designed for students, educators, and ML enthusiasts, this website helps users intuitively understand how various algorithms work through real-time simulations and visual feedback.
+
+## ✨ Features
+
+- 🎯 **Interactive Canvas**: Click to add points, set parameters, and watch algorithms work.
+- 📊 **Multiple ML Models** Visualized:
+  - **K-Nearest Neighbors (KNN)**
+  - **K-Means Clustering**
+  - **DBSCAN (Density-Based Spatial Clustering)**
+  - **Reinforcement Learning (Grid World)**
+  - **Linear Regression**
+  - **Self-Organizing Maps (SOM)**
+  - **Principal Component Analysis (PCA)**
+  - **Decision Tree Classifier**
+- 🔄 **Step-by-Step Execution**: See each iteration and how the model learns.
+- ⚙️ **Hyperparameter Controls**: Customize settings like number of neighbors, learning rate, etc.
+- 💡 **Tooltips & Explanations**: Learn while you explore.
+
+---
+
+## 🛠 Tech Stack
+
+- **Frontend**: React + Canvas API
+- **Backend (optional)**: Node.js / Python (for data upload & preprocessing)
+- **Visualization**: Custom logic using React hooks and canvas rendering
+- **Styling**: TailwindCSS / CSS Modules
+
+---
+
+## 🧪 How to Run Locally
+
+```bash
+git clone https://github.com/yourusername/ml-visualizer.git
+cd ml-visualizer
+npm install
+npm run dev
+
+
+
+
+
+
+
+
+
+
 This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
 
 ## Getting Started
