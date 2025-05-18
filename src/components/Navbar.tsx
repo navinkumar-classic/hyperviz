@@ -42,13 +42,14 @@ export default function Navbar() {
               </MenuItem>
               <MenuItem value="knn">KNN</MenuItem>
               <MenuItem value="kmeans">K Means</MenuItem>
-              <MenuItem value="linear">Linear</MenuItem>
+              <MenuItem value="linear">Linear and Polynomial Regression</MenuItem>
               <MenuItem value="DBSCAN">DBSCAN</MenuItem>
               <MenuItem value="NaiveBayes">Naive Bayes</MenuItem>
               <MenuItem value="neural">Neural Network: MLP</MenuItem>
               <MenuItem value="Qlearning">Reinforcement Learning</MenuItem>
               <MenuItem value="PCA">PCA</MenuItem>
               <MenuItem value="SOM">SOM</MenuItem>
+              <MenuItem value="DecisionTree">Decision Tree</MenuItem>
             </Select>
           </FormControl>
 

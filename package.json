@@ -17,6 +17,8 @@
     "@react-three/drei": "^10.0.6",
     "@react-three/fiber": "^9.1.2",
     "chart.js": "^4.4.8",
+    "d3": "^7.9.0",
+    "d3-graphviz": "^5.6.0",
     "lucide-react": "^0.476.0",
     "ml-pca": "^4.1.1",
     "next": "15.2.0",
