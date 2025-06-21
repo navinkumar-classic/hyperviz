@@ -1,9 +1,11 @@
 @import "tailwindcss";
 
 @theme {
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --font-plexmono: var(--font-mono);
   --font-mont: var(--font-montserrat);
+  --font-one: var(--font-scopeone);
+  --font-inter: var(--font-inter);
+  --font-blackOps: var(--font-blackOps)
 }
 
 :root {
@@ -15,5 +17,5 @@
 body {
   color: var(--foreground);
   background: var(--background);
-  font-family: var(--font-mont);
+  font-family: var(--font-one);
 }
