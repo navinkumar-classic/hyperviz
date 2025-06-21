@@ -1,5 +1,6 @@
 import React, { useRef, useEffect, useState } from 'react';
 
+
 type Point = { x: number; y: number };
 
 const CANVAS_WIDTH = 620;

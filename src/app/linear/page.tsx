@@ -31,7 +31,7 @@ export default function KNN() {
 
         <LHS buttonsList={[btndm]} heading="Linear Regression" parameters={["Type of Regression"]} />
 
-        <TextField id="filled-basic" label="Ridge - λ" variant="standard" className="w-[80%]" value={lambda}
+        <TextField id="filled-basic" label="λ parameter for Ridge Regression" variant="standard" className="w-[80%]" value={lambda}
         onChange={(e) => setLambda(Number(e.target.value))} type="number" inputProps={{ step: "any" }} />
 
         <div className="mt-3">
@@ -46,7 +46,7 @@ export default function KNN() {
         <div className="w-[80%] mt-1 flex flex-col items-center bg-white border-1 border-[#E9EAEB] rounded-lg p-4">
           {/* for the info above the play button. 1st list is for 1st row and 2nd list is for 2nd row*/}
           <AttributeList AttributeInfo={
-            [[{ label: "Loss Function", value: regularisation, num: 2 }],
+            [[{ label: "Type of Regression", value: regularisation, num: 2 }],
             [{ label: "R² Score", value: r2.toString(), num: 3 },
             { label: "RMSE", value: rmse.toString(), num: 3 },
             { label: "MAE", value: mae.toString(), num: 3 }]]
@@ -55,7 +55,7 @@ export default function KNN() {
 
 
         </div>
-        <h1 className="mt-2 italic">Click Anywhere To Place Points</h1>
+        <h1 className="mt-2 italic">Simulate line fitting in linear regression by placing points anywhere on the graph</h1>
         <div className="flex md:flex-row flex-col w-full mt-3 justify-between">
 
           <LinearRegression r2func={setR2} rmsefunc = {setRmse} maefunc = {setMae} clearTrigger = {clearTrigger} reg = {regularisation} lambda = {lambda} 

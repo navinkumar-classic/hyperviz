@@ -71,7 +71,7 @@ export default function KNN() {
           <Button variant="contained" className="py-5 PX-2" color="inherit" onClick={(e)=>setClearTrigger(!clearTrigger)}>Clear The Graph</Button>  
         </div>
 
-        <Link />
+        <Link model={"SOM"}/>
 
       </div>
       <div className="basis-[77.5%] bg-[#FAFAFA] flex flex-col p-5 px-9 items-center overflow-y-auto h-[87vh]">
