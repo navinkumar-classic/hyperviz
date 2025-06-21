@@ -283,8 +283,8 @@ export default function DecisionTreeForm() {
         <div className="w-[80%] mt-1 flex flex-col items-center bg-white border-1 border-[#E9EAEB] rounded-lg p-4">
           {/* for the info above the play button. 1st list is for 1st row and 2nd list is for 2nd row*/}
           <AttributeList AttributeInfo={
-            [[{ label: "Accuracy", value: result?.accuracy !== undefined ? result.accuracy.toFixed(3).toString(): "N/A", num: 2 },
-            { label: "Prediction", value: result?.prediction !== undefined ? result.prediction : "N/A", num: 2 }
+            [[{ label: "Accuracy", value: result?.accuracy !== undefined ? result.accuracy.toFixed(3).toString(): "N/A", num: 2, basis: 'basis-[40%]' },
+            { label: "Prediction", value: result?.prediction !== undefined ? result.prediction : "N/A", num: 2, basis: 'basis-[40%]' }
             ]]
           }
           />

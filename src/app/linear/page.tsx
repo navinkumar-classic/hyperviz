@@ -46,10 +46,10 @@ export default function KNN() {
         <div className="w-[80%] mt-1 flex flex-col items-center bg-white border-1 border-[#E9EAEB] rounded-lg p-4">
           {/* for the info above the play button. 1st list is for 1st row and 2nd list is for 2nd row*/}
           <AttributeList AttributeInfo={
-            [[{ label: "Type of Regression", value: regularisation, num: 2 }],
-            [{ label: "R² Score", value: r2.toString(), num: 3 },
-            { label: "RMSE", value: rmse.toString(), num: 3 },
-            { label: "MAE", value: mae.toString(), num: 3 }]]
+            [[{ label: "Type of Regression", value: regularisation, num: 2, basis: 'basis-[40%]' }],
+            [{ label: "R² Score", value: r2.toString(), num: 3, basis: 'basis-[30%]' },
+            { label: "RMSE", value: rmse.toString(), num: 3, basis: 'basis-[30%]' },
+            { label: "MAE", value: mae.toString(), num: 3, basis: 'basis-[30%]' }]]
           }
           />
 

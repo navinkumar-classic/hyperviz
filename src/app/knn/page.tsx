@@ -150,11 +150,11 @@ export default function KNN() {
         <div className="w-[80%] mt-1 flex flex-col items-center bg-white border-1 border-[#E9EAEB] rounded-lg p-4">
           {/* for the info above the play button. 1st list is for 1st row and 2nd list is for 2nd row*/}
           <AttributeList AttributeInfo={
-            [[{ label: "Distance Metric", value: distanceMetric, num: 2 },
-            { label: "Weigthing Function", value: weigtingFunction, num: 2 }],
-            [{ label: "K Value", value: value.toString(), num: 3 },
-            { label: "Error", value: (1 - Number(dataDict[value.toString()]?.accuracy)).toString(), num: 3 },
-            { label: "Accuracy", value: Number(dataDict[value.toString()]?.accuracy).toString(), num: 3 }]]
+            [[{ label: "Distance Metric", value: distanceMetric, num: 2, basis: 'basis-[40%]' },
+            { label: "Weigthing Function", value: weigtingFunction, num: 2, basis: 'basis-[40%]' }],
+            [{ label: "K Value", value: value.toString(), num: 3, basis: 'basis-[30%]' },
+            { label: "Error", value: (1 - Number(dataDict[value.toString()]?.accuracy)).toString(), num: 3, basis: 'basis-[30%]' },
+            { label: "Accuracy", value: Number(dataDict[value.toString()]?.accuracy).toString(), num: 3, basis: 'basis-[30%]' }]]
           }
           />
 

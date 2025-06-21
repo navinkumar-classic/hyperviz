@@ -1,6 +1,7 @@
 import { JSX, ReactNode } from "react";
 import React from "react";
-import { Button, ButtonGroup } from "@mui/material";
+import { Tooltip, IconButton  } from "@mui/material";
+import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
 import { Box, InputLabel, FormControl, NativeSelect, Select, MenuItem } from '@mui/material';
 import { SelectChangeEvent } from "@mui/material";
 
@@ -42,7 +43,16 @@ export default function LHS({ buttonsList, heading, parameters }: { buttonsList:
                 </FormControl>*/}
 
                 <FormControl fullWidth variant="standard">
-                    <InputLabel id="demo-simple-select-standard-label">{parameters[btnindex]}</InputLabel>
+                        <InputLabel id="demo-simple-select-standard-label">
+                            {parameters[btnindex]} &nbsp;
+
+                            <Tooltip title="This is a description or hint about the parameter" arrow>
+                                <IconButton size="small" sx={{ padding: 0 }}>
+                                    <InfoOutlinedIcon fontSize="small" />
+                                </IconButton>
+                            </Tooltip>
+                        </InputLabel>
+
                     <Select
                         labelId = "demo-simple-select-standard-label"
                         id = "demo-simple-select-standard"

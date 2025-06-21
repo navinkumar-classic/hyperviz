@@ -54,36 +54,36 @@ export default function KNN() {
   console.log(expl_dbscan)
   return (
     <div className="flex flex-grow md:flex-row flex-col">
-      <div className={`bg-[#FFFFFF] border-r-2 border-[#E9EAEB] flex flex-col items-center  ${expl_dbscan?'basis-[40%]':'basis-[22.5%]'}`}>
+      <div className={`bg-[#FFFFFF] h-[87vh] border-r-2 border-[#E9EAEB] flex flex-col items-center  ${expl_dbscan?'basis-[40%]':'basis-[22.5%]'}`}>
           {expl_dbscan? (
-            <div className="top-0 left-0 z-10 w-full h-full bg-black bg-opacity-0 p-6">
+            <div className="grow overflow-y-auto bg-transparent bg-opacity-0">
               <Explanation model={"DBSCAN"} onExplainClick={setexpl_dbscan}/>
               </div>
           ):(
             <>
-          <LHS buttonsList={[btndm]} heading="DBSCAN" parameters={["Example Dataset"]} />
-        
-        <div className="mb-5 w-[80%]">
+              <LHS buttonsList={[btndm]} heading="DBSCAN" parameters={["Example Dataset"]} />
 
-          <TextField id="filled-K" label="ε (Epsilon)" type="number" inputProps={{ step: "0.2" }} variant="standard" className="w-full" value={eps}
-          onChange={(e) => setEps(Number(e.target.value))}  /> 
+              <div className="mb-5 w-[80%]">
 
-        </div>
+                <TextField id="filled-K" label="ε (Epsilon)" type="number" inputProps={{ step: "0.2" }} variant="standard" className="w-full" value={eps}
+                onChange={(e) => setEps(Number(e.target.value))}  />
 
-        <div className="mb-7 w-[80%]">
+              </div>
 
-          <TextField id="filled-basic" label="K (Number of Neighbour)" type="number" variant="standard" className="w-full" value={K}
-          onChange={(e) => setK(Number(e.target.value))}  />
+              <div className="mb-7 w-[80%]">
 
-        </div>
+                <TextField id="filled-basic" label="K (Number of Neighbour)" type="number" variant="standard" className="w-full" value={K}
+                onChange={(e) => setK(Number(e.target.value))}  />
 
-        <Button variant="contained" className="py-5" color="inherit" onClick={(e)=>setValue(!value)}>Classify The Points</Button>
-        <div className="mt-2">
-          <Button variant="contained" className="py-5" color="inherit" onClick={(e)=>setClearTrigger(!clearTrigger)}>Clear The Graph</Button>  
-        </div>
+              </div>
 
-        <Link model={"DBSCAN"} onExplainClick={setexpl_dbscan}/>
-        </>
+              <Button variant="contained" className="py-5" color="inherit" onClick={(e)=>setValue(!value)}>Classify The Points</Button>
+              <div className="mt-2">
+                <Button variant="contained" className="py-5" color="inherit" onClick={(e)=>setClearTrigger(!clearTrigger)}>Clear The Graph</Button>
+              </div>
+
+              <Link model={"DBSCAN"} onExplainClick={setexpl_dbscan}/>
+            </>
       )}
 
       </div>
@@ -92,13 +92,13 @@ export default function KNN() {
         <div className="w-[100%] mt-1 flex flex-col items-center bg-white border-1 border-[#E9EAEB] rounded-lg p-4">
           {/* for the info above the play button. 1st list is for 1st row and 2nd list is for 2nd row*/}
           <AttributeList AttributeInfo={
-            [[{ label: "K- Number of Neighbour", value: K.toString(), num: 2 },
-              { label: "ε- Max distance between 2 neighbouring pts", value: eps.toString(), num: 2 }
+            [[{ label: "K- Number of Neighbour", value: K.toString(), num: 3, basis: 'basis-[40%]' },
+              { label: "ε- Max distance between 2 neighbouring pts", value: eps.toString(), num: 3, basis: 'basis-[40%]' }
             ],
-            [{ label: "Core Points", value: core.toString(), num: 4 },
-            { label: "Boundary Points", value: boundary.toString(), num: 4 },
-            { label: "Outliers (Gray)", value: outlier.toString(), num: 4 },
-            { label: "Silhouette Score", value: silhouette.toString(), num: 4 },
+            [{ label: "Core Points", value: core.toString(), num: 4, basis: 'basis-[20%]' },
+            { label: "Boundary Points", value: boundary.toString(), num: 4, basis: 'basis-[20%]' },
+            { label: "Outliers (Gray)", value: outlier.toString(), num: 4, basis: 'basis-[20%]' },
+            { label: "Silhouette Score", value: silhouette.toString(), num: 4, basis: 'basis-[20%]' },
             ]]
           }
           />
@@ -112,16 +112,16 @@ export default function KNN() {
         </h1></center>
         <div className="flex md:flex-row flex-col w-full h-full mt-3 justify-between">
           <DBSCAN
-    core={setCore}
-    boundary={setBoundary}
-    outlier={setOutlier}
-    silh={setSilhouette}
-    clearTrigger={clearTrigger}
-    eps={eps}
-    k={K}
-    flag={value}
-    pointex={points}
-  />
+            core={setCore}
+            boundary={setBoundary}
+            outlier={setOutlier}
+            silh={setSilhouette}
+            clearTrigger={clearTrigger}
+            eps={eps}
+            k={K}
+            flag={value}
+            pointex={points}
+          />
           
 
 

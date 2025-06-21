@@ -108,11 +108,11 @@ export default function KNN() {
         <div className="w-[80%] mt-1 flex flex-col items-center bg-white border-1 border-[#E9EAEB] rounded-lg p-4">
           {/* for the info above the play button. 1st list is for 1st row and 2nd list is for 2nd row*/}
           <AttributeList AttributeInfo={
-            [[{ label: "K Value", value: K.toString(), num: 2 },
-            { label: "Initialization", value: init.toString(), num: 2 }
+            [[{ label: "K Value", value: K.toString(), num: 2, basis: 'basis-[40%]' },
+            { label: "Initialization", value: init.toString(), num: 2, basis: 'basis-[40%]' }
             ],
-            [{ label: "WCSS", value: core.toString(), num: 4 },
-            { label: "Silhouette Score", value: silhouette.toString(), num: 4 },
+            [{ label: "WCSS", value: core.toString(), num: 4, basis: 'basis-[20%]' },
+            { label: "Silhouette Score", value: silhouette.toString(), num: 4, basis: 'basis-[20%]' },
             ]]
           }
           />

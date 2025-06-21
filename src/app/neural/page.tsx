@@ -151,11 +151,11 @@ export default function KNN() {
         <div className="w-[80%] mt-1 flex flex-col items-center bg-white border-1 border-[#E9EAEB] rounded-lg p-4">
           {/* for the info above the play button. 1st list is for 1st row and 2nd list is for 2nd row*/}
           <AttributeList AttributeInfo={
-            [[{ label: "Learning Rate", value: learningRate, num: 2 },
-            { label: "Activation Function", value: activation, num: 2 }],
-            [{ label: "Epoch", value: value.toString(), num: 3 },
-            { label: "Test Loss", value: Number(dataDict[value.toString()]?.Loss).toString(), num: 3 },
-            { label: "F1 Score", value: Number(dataDict[value.toString()]?.F1).toString(), num: 3 }]]
+            [[{ label: "Learning Rate", value: learningRate, num: 2, basis: 'basis-[40%]' },
+            { label: "Activation Function", value: activation, num: 2, basis: 'basis-[40%]' }],
+            [{ label: "Epoch", value: value.toString(), num: 3, basis: 'basis-[30%]' },
+            { label: "Test Loss", value: Number(dataDict[value.toString()]?.Loss).toString(), num: 3, basis: 'basis-[30%]' },
+            { label: "F1 Score", value: Number(dataDict[value.toString()]?.F1).toString(), num: 3, basis: 'basis-[30%]' }]]
           }
           />
 

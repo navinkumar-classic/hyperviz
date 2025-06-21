@@ -90,10 +90,10 @@ export default function KNN() {
         <div className="w-[80%] mt-1 flex flex-col items-center bg-white border-1 border-[#E9EAEB] rounded-lg p-4">
           {/* for the info above the play button. 1st list is for 1st row and 2nd list is for 2nd row*/}
           <AttributeList AttributeInfo={
-            [[{ label: "Eigen Vector (PC1)", value: eigenvectors[0].map(n => n.toFixed(3)).join(', '), num: 2 },
-              { label: "Eigen Vector (PC2)", value: eigenvectors[1].map(n => n.toFixed(3)).join(', '), num: 2 }
+            [[{ label: "Eigen Vector (PC1)", value: eigenvectors[0].map(n => n.toFixed(3)).join(', '), num: 2, basis: 'basis-[40%]' },
+              { label: "Eigen Vector (PC2)", value: eigenvectors[1].map(n => n.toFixed(3)).join(', '), num: 2, basis: 'basis-[40%]' }
             ],
-            [{ label: "Eigen Vector (PC3)", value: eigenvectors[2].map(n => n.toFixed(3)).join(', '), num: 2 }
+            [{ label: "Eigen Vector (PC3)", value: eigenvectors[2].map(n => n.toFixed(3)).join(', '), num: 2, basis: 'basis-[40%]' }
             ]]
           }
           />

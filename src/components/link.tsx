@@ -1,7 +1,7 @@
 import { GitHub, Person } from '@mui/icons-material';
 
-export default function Link({ model, onExplainClick }){
-    const display_properties=(model)=>{
+export default function Link({ model, onExplainClick }: {model:string, onExplainClick:Function}){
+    const display_properties=(model:string)=>{
         console.log(model)
         onExplainClick(true)
     }
