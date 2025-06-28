@@ -47,8 +47,8 @@ export default function LHS({ buttonsList, heading, parameters }: { buttonsList:
                             {parameters[btnindex]} &nbsp;
 
                             <Tooltip title="This is a description or hint about the parameter" arrow>
-                                <IconButton size="small" sx={{ padding: 0 }}>
-                                    <InfoOutlinedIcon fontSize="small" />
+                                <IconButton size="small" sx={{ color: 'black' }}>
+                                    <InfoOutlinedIcon fontSize="inherit" />
                                 </IconButton>
                             </Tooltip>
                         </InputLabel>

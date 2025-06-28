@@ -2,19 +2,19 @@ import React, { useRef, useEffect, useState } from 'react';
 
 type Point = { x: number; y: number };
 
-const CANVAS_WIDTH = 550;
-const CANVAS_HEIGHT = 410;
+const CANVAS_WIDTH = 495;
+const CANVAS_HEIGHT = 405;
 
-const AXIS_COLOR = '#333';
+const AXIS_COLOR = '#8b929a'; //'#5e977a
+const MAIN_AXIS_COLOR = 'black';
 const POINT_COLOR = 'blue';
-const MARGIN_LEFT = 40;
-const MARGIN_BOTTOM = 40;
+const MARGIN_LEFT = 45;
+const MARGIN_BOTTOM = 45;
+const MARGIN_LEFT_GUIDE = 0;
+const MARGIN_BOTTOM_GUIDE = 0;
 const UNIT = 45; // 1 unit = 45px
-const X_RANGE = 13;
+const X_RANGE = 10;
 const Y_RANGE = 8;
-
-const EPSILON = 1; // in graph units
-const MIN_POINTS = 5;
 
 function euclidean(p1: Point, p2: Point) {
     return Math.sqrt((p1.x - p2.x) ** 2 + (p1.y - p2.y) ** 2);
@@ -189,15 +189,29 @@ export default function Kmeans({ core, silh, init, maxI, k, flag, clearTrigger, 
 
     useEffect(() => {
         const canvas = canvasRef.current;
+        const scale = window.devicePixelRatio || 1;
+
         if (!canvas) return;
         const ctx = canvas.getContext('2d');
         if (!ctx) return;
 
         ctx.clearRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
+        // Save original size
+        const width = CANVAS_WIDTH;
+        const height = CANVAS_HEIGHT;
+
+        // Resize the canvas for high DPI
+        canvas.width = width * scale;
+        canvas.height = height * scale;
+        canvas.style.width = `${width}px`;
+        canvas.style.height = `${height}px`;
+
+        // Scale the context
+        ctx.scale(scale, scale);
 
         // Draw axes
-        ctx.strokeStyle = AXIS_COLOR;
-        ctx.lineWidth = 2;
+        ctx.strokeStyle = MAIN_AXIS_COLOR;
+        ctx.lineWidth = 1.5;
         ctx.beginPath();
         ctx.moveTo(MARGIN_LEFT, 0);
         ctx.lineTo(MARGIN_LEFT, CANVAS_HEIGHT);
@@ -206,11 +220,12 @@ export default function Kmeans({ core, silh, init, maxI, k, flag, clearTrigger, 
         ctx.stroke();
 
         // Grid lines
-        ctx.lineWidth = 0.3;
+        ctx.strokeStyle = AXIS_COLOR;
+        ctx.lineWidth = 0.5;
         for (let i = 1; i <= Y_RANGE; i++) {
             const y = CANVAS_HEIGHT - MARGIN_BOTTOM - i * UNIT;
             ctx.beginPath();
-            ctx.moveTo(MARGIN_LEFT, y);
+            ctx.moveTo(MARGIN_LEFT_GUIDE, y);
             ctx.lineTo(CANVAS_WIDTH, y);
             ctx.stroke();
         }
@@ -219,19 +234,58 @@ export default function Kmeans({ core, silh, init, maxI, k, flag, clearTrigger, 
             const x = MARGIN_LEFT + i * UNIT;
             ctx.beginPath();
             ctx.moveTo(x, 0);
-            ctx.lineTo(x, CANVAS_HEIGHT - MARGIN_BOTTOM);
+            ctx.lineTo(x, CANVAS_HEIGHT - MARGIN_BOTTOM_GUIDE);
             ctx.stroke();
         }
 
         // Axis labels
-        ctx.font = '16px sans-serif';
-        ctx.fillStyle = AXIS_COLOR;
-        ctx.fillText('0', MARGIN_LEFT - 25, CANVAS_HEIGHT - MARGIN_BOTTOM + 25);
-        for (let i = 1; i <= Y_RANGE; i++) {
-            ctx.fillText(String(i), MARGIN_LEFT - 25, CANVAS_HEIGHT - MARGIN_BOTTOM - i * UNIT + 5);
+        ctx.font = '16px monospace';
+        ctx.textBaseline = 'top'; // Ensures consistent vertical alignment
+        ctx.fillStyle = 'black';  // Text color
+
+        ctx.fillText('0', MARGIN_LEFT - 15, CANVAS_HEIGHT - MARGIN_BOTTOM + 10);
+        // Draw Y-axis labels
+        ctx.textAlign = 'right';
+        for (let i = 1; i <= Y_RANGE-1; i++) {
+            const x = MARGIN_LEFT - 13;
+            const y = CANVAS_HEIGHT - MARGIN_BOTTOM - i * UNIT - 8;
+
+            // Draw white rectangle background
+            ctx.fillStyle = 'white';
+            ctx.fillRect(x-12, y-2, 20, 20); // adjust width/height as needed
+
+            ctx.strokeStyle = MAIN_AXIS_COLOR;
+            ctx.lineWidth = 1.5;
+            ctx.beginPath();
+            ctx.moveTo(x+5, y+8);
+            ctx.lineTo(x+12, y+8);
+            ctx.stroke();
+
+            // Draw text on top
+            ctx.fillStyle = 'black';
+            ctx.fillText(String(i), x, y);
         }
-        for (let i = 1; i <= X_RANGE; i++) {
-            ctx.fillText(String(i), MARGIN_LEFT + i * UNIT - 4, CANVAS_HEIGHT - MARGIN_BOTTOM + 25);
+
+        // Draw X-axis labels
+        ctx.textAlign = 'center';
+        for (let i = 1; i <= X_RANGE-1; i++) {
+            const x = MARGIN_LEFT + i * UNIT;
+            const y = CANVAS_HEIGHT - MARGIN_BOTTOM + 10;
+
+            // Draw white rectangle background
+            ctx.fillStyle = 'white';
+            ctx.fillRect(x - 8, y - 2, 16, 20); // adjust width/height as needed
+
+            ctx.strokeStyle = MAIN_AXIS_COLOR;
+            ctx.lineWidth = 1.5;
+            ctx.beginPath();
+            ctx.moveTo(x, y-9);
+            ctx.lineTo(x, y-2);
+            ctx.stroke();
+
+            // Draw text on top
+            ctx.fillStyle = 'black';
+            ctx.fillText(String(i), x, y+2);
         }
 
         // Draw points

@@ -2,13 +2,16 @@ import React, { useRef, useEffect, useState } from 'react';
 
 type Point = { x: number; y: number };
 
-const CANVAS_WIDTH = 620;
-const CANVAS_HEIGHT = 400;
+const CANVAS_WIDTH = 630;
+const CANVAS_HEIGHT = 359;
 
-const AXIS_COLOR = '#333';
+const AXIS_COLOR = '#8b929a'; //'#5e977a
+const MAIN_AXIS_COLOR = 'black';
 const POINT_COLOR = 'blue';
-const MARGIN_LEFT = 40;
-const MARGIN_BOTTOM = 40;
+const MARGIN_LEFT = 45;
+const MARGIN_BOTTOM = 45;
+const MARGIN_LEFT_GUIDE = 0;
+const MARGIN_BOTTOM_GUIDE = 0;
 const UNIT = 45; // 1 unit = 45px
 const X_RANGE = 13;
 const Y_RANGE = 7;
@@ -212,15 +215,29 @@ export default function LinearRegression({ r2func, maefunc, rmsefunc, reg, lambd
 
   useEffect(() => {
     const canvas = canvasRef.current;
+    const scale = window.devicePixelRatio || 1;
+
     if (!canvas) return;
     const ctx = canvas.getContext('2d');
     if (!ctx) return;
 
     ctx.clearRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
+    // Save original size
+    const width = CANVAS_WIDTH;
+    const height = CANVAS_HEIGHT;
+
+    // Resize the canvas for high DPI
+    canvas.width = width * scale;
+    canvas.height = height * scale;
+    canvas.style.width = `${width}px`;
+    canvas.style.height = `${height}px`;
+
+    // Scale the context
+    ctx.scale(scale, scale);
 
     // Draw axes
-    ctx.strokeStyle = AXIS_COLOR;
-    ctx.lineWidth = 2;
+    ctx.strokeStyle = MAIN_AXIS_COLOR;
+    ctx.lineWidth = 1.5;
     ctx.beginPath();
     ctx.moveTo(MARGIN_LEFT, 0);
     ctx.lineTo(MARGIN_LEFT, CANVAS_HEIGHT);
@@ -228,12 +245,14 @@ export default function LinearRegression({ r2func, maefunc, rmsefunc, reg, lambd
     ctx.lineTo(CANVAS_WIDTH, CANVAS_HEIGHT - MARGIN_BOTTOM);
     ctx.stroke();
 
+
     // Grid lines
-    ctx.lineWidth = 0.3;
+    ctx.strokeStyle = AXIS_COLOR;
+    ctx.lineWidth = 0.5;
     for (let i = 1; i <= Y_RANGE; i++) {
       const y = CANVAS_HEIGHT - MARGIN_BOTTOM - i * UNIT;
       ctx.beginPath();
-      ctx.moveTo(MARGIN_LEFT, y);
+      ctx.moveTo(MARGIN_LEFT_GUIDE, y);
       ctx.lineTo(CANVAS_WIDTH, y);
       ctx.stroke();
     }
@@ -242,10 +261,60 @@ export default function LinearRegression({ r2func, maefunc, rmsefunc, reg, lambd
       const x = MARGIN_LEFT + i * UNIT;
       ctx.beginPath();
       ctx.moveTo(x, 0);
-      ctx.lineTo(x, CANVAS_HEIGHT - MARGIN_BOTTOM);
+      ctx.lineTo(x, CANVAS_HEIGHT - MARGIN_BOTTOM_GUIDE);
       ctx.stroke();
     }
 
+    ctx.font = '16px monospace';
+    ctx.textBaseline = 'top'; // Ensures consistent vertical alignment
+    ctx.fillStyle = 'black';  // Text color
+
+    ctx.fillText('0', MARGIN_LEFT - 15, CANVAS_HEIGHT - MARGIN_BOTTOM + 10);
+    // Draw Y-axis labels
+    ctx.textAlign = 'right';
+    for (let i = 1; i <= Y_RANGE-1; i++) {
+      const x = MARGIN_LEFT - 13;
+      const y = CANVAS_HEIGHT - MARGIN_BOTTOM - i * UNIT - 8;
+
+      // Draw white rectangle background
+      ctx.fillStyle = 'white';
+      ctx.fillRect(x-12, y-2, 20, 20); // adjust width/height as needed
+
+      ctx.strokeStyle = MAIN_AXIS_COLOR;
+      ctx.lineWidth = 1.5;
+      ctx.beginPath();
+      ctx.moveTo(x+5, y+8);
+      ctx.lineTo(x+12, y+8);
+      ctx.stroke();
+
+      // Draw text on top
+      ctx.fillStyle = 'black';
+      ctx.fillText(String(i), x, y);
+    }
+
+    // Draw X-axis labels
+    ctx.textAlign = 'center';
+    for (let i = 1; i <= X_RANGE-1; i++) {
+      const x = MARGIN_LEFT + i * UNIT;
+      const y = CANVAS_HEIGHT - MARGIN_BOTTOM + 10;
+
+      // Draw white rectangle background
+      ctx.fillStyle = 'white';
+      ctx.fillRect(x - 8, y - 2, 16, 20); // adjust width/height as needed
+
+      ctx.strokeStyle = MAIN_AXIS_COLOR;
+      ctx.lineWidth = 1.5;
+      ctx.beginPath();
+      ctx.moveTo(x, y-9);
+      ctx.lineTo(x, y-2);
+      ctx.stroke();
+
+      // Draw text on top
+      ctx.fillStyle = 'black';
+      ctx.fillText(String(i), x, y+2);
+    }
+
+    {/*
     // Axis labels
     ctx.font = '16px sans-serif';
     ctx.fillText('0', MARGIN_LEFT - 25, CANVAS_HEIGHT - MARGIN_BOTTOM + 25);
@@ -255,6 +324,7 @@ export default function LinearRegression({ r2func, maefunc, rmsefunc, reg, lambd
     for (let i = 1; i <= X_RANGE; i++) {
       ctx.fillText(String(i), MARGIN_LEFT + i * UNIT - 4, CANVAS_HEIGHT - MARGIN_BOTTOM + 25);
     }
+    */}
 
     for (const point of points) {
       const canvasX = MARGIN_LEFT + point.x * UNIT;
@@ -346,8 +416,8 @@ export default function LinearRegression({ r2func, maefunc, rmsefunc, reg, lambd
       width={CANVAS_WIDTH}
       height={CANVAS_HEIGHT}
       onClick={handleClick}
-      style={{ border: '2px solid #E9EAEB', cursor: 'crosshair' }}
-      className='m-auto bg-white mt-2 rounded-sm'
+      style={{ border: '1px solid #E9EAEB', cursor: 'crosshair' }}
+      className='m-auto bg-white mt-2'
     />
   );
 }
