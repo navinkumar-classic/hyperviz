@@ -20,16 +20,16 @@ export default function Navbar() {
   };
 
   return (
-    <nav className="text-black pr-9 pl-9 py-6 border-b-2 border-b-[#D5D7DA] h-[13vh]">
+    <nav className="text-black md:pr-9 pr-3 md:pl-9 pl-3 md:py-6 py-4 border-b-2 border-b-[#D5D7DA]">
       <div className="container mx-auto flex text-xl justify-between items-center">
         {/* Logo */}
         <Link href="/" className="text-3xl font-bold flex items-center justify-center">
           <Image src={"/graph.svg"} width={60} height={60} alt="logo" />
-          <div className="mx-4 font-blackOps font-light">HyperViz</div>
+          <div className="mx-4 font-blackOps font-light md:flex hidden">HyperViz</div>
         </Link>
 
-        <div>
-          <FormControl variant="filled" sx={{ minWidth: 500 }}>
+        <div className={'md:w-[50%] w-[70%] flex'}>
+          <FormControl variant="filled" className={`grow`}>
             <InputLabel id="model-select-label">Choose a Model</InputLabel>
             <Select
               labelId="model-select-label"
@@ -53,7 +53,7 @@ export default function Navbar() {
             </Select>
           </FormControl>
 
-          <IconButton onClick={() => console.log("hi")} color="default" sx={{ color: "black", ml: 4 }}>
+          <IconButton onClick={() => console.log("hi")} color="default" sx={{ color: "black", ml: 0.5 }}>
             <GitHub fontSize="large" />
           </IconButton>
         </div>
