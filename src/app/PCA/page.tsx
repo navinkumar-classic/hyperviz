@@ -11,6 +11,7 @@ import TextField from '@mui/material/TextField';
 import { clear } from "console";
 import OriginalPlot from '@/components/PCA'
 
+
 type Point3D = [number, number, number];
 
 export default function KNN() {
@@ -82,7 +83,6 @@ export default function KNN() {
 
         <Button variant="contained" className="py-5" color="inherit" onClick={(e)=>setValue(!value)}>Add Points</Button>
 
-        <Link />
 
       </div>
       <div className="basis-[77.5%] bg-[#FAFAFA] flex flex-col p-5 px-9 items-center overflow-y-auto h-[87vh]">

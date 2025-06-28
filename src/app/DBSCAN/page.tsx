@@ -1,15 +1,13 @@
 "use client";
 
-import Image from "next/image";
 import { useState, useEffect } from "react";
-import { Button, ButtonGroup, Box } from "@mui/material";
+import { Button } from "@mui/material";
 import LHS from "@/components/LHS";
 import Link from "@/components/link"
 import AttributeList from "@/components/AttributeList";
 import DBSCAN from "@/components/DBSCAN";
 import Explanation from "@/components/Explanation"
 import TextField from '@mui/material/TextField';
-import { clear } from "console";
 import { cluster_1, cluster_2 } from "@/components/data";
 
 const exam_1 = cluster_1
