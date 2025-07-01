@@ -116,7 +116,7 @@ export default function KNN() {
       <div className="basis-[77.5%] bg-[#FAFAFA] flex flex-col p-5 px-9 items-center overflow-y-auto h-[87vh]">
 
         <h1 className="text-2xl mb-4 py-5 italic">Q-Learning Maze Visualizer</h1>
-        <div className="grid grid-cols-2 gap-4">
+        <div className="flex w-full md:flex-row flex-col">
           <Grid
             rows={numRows}
             cols={numCols}

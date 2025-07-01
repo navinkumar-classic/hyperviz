@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { Button, ButtonGroup, Box } from "@mui/material";
 import LHS from "@/components/LHS";
 import Link from "@/components/link"
@@ -9,6 +9,7 @@ import AttributeList from "@/components/AttributeList";
 import SOM from "@/components/SOM"
 import TextField from '@mui/material/TextField';
 import { clear } from "console";
+import CustomLabel from "@/components/CustomLabel";
 
 
 export default function KNN() {
@@ -40,28 +41,28 @@ export default function KNN() {
 
         <div className="mb-5 w-[80%]">
 
-          <TextField id="filled-iteration" label="Iteration" type="number" variant="standard" className="w-full" value={iterations}
+          <TextField id="filled-iteration" label={<CustomLabel label={'Iteration'} definition={'Max distance between 2 neighbouring pts'} />} type="number" variant="standard" className="w-full" value={iterations}
           onChange={(e) => setIterations(Number(e.target.value))}  /> 
 
         </div>
 
         <div className="mb-5 w-[80%]">
 
-          <TextField id="filled-learning-rate" label="Learning Rate" type="number" inputProps={{ step: "0.01" }} variant="standard" className="w-full" value={learningRate}
+          <TextField id="filled-learning-rate" label={<CustomLabel label={'Learning Rate'} definition={'Max distance between 2 neighbouring pts'} />} type="number" inputProps={{ step: "0.01" }} variant="standard" className="w-full" value={learningRate}
           onChange={(e) => setLearningRate(Number(e.target.value))}  /> 
 
         </div>
 
         <div className="mb-5 w-[80%]">
 
-          <TextField id="filled-som-width" label="SOM Width" type="number" variant="standard" className="w-full" value={somWidth}
+          <TextField id="filled-som-width" label={<CustomLabel label={'SOM Width'} definition={'Max distance between 2 neighbouring pts'} />} type="number" variant="standard" className="w-full" value={somWidth}
           onChange={(e) => setSomWidth(Number(e.target.value))}  /> 
 
         </div>
 
         <div className="mb-5 w-[80%]">
 
-          <TextField id="filled-som-height" label="SOM Height" type="number" variant="standard" className="w-full" value={somHeight}
+          <TextField id="filled-som-height" label={<CustomLabel label={'SOM Height'} definition={'Max distance between 2 neighbouring pts'} />} type="number" variant="standard" className="w-full" value={somHeight}
           onChange={(e) => setSomHeight(Number(e.target.value))}  /> 
 
         </div>

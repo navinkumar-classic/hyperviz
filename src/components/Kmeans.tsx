@@ -3,7 +3,7 @@ import React, { useRef, useEffect, useState } from 'react';
 type Point = { x: number; y: number };
 
 const CANVAS_WIDTH = 495;
-const CANVAS_HEIGHT = 405;
+const CANVAS_HEIGHT = 404;
 
 const AXIS_COLOR = '#8b929a'; //'#5e977a
 const MAIN_AXIS_COLOR = 'black';
@@ -386,8 +386,8 @@ export default function Kmeans({ core, silh, init, maxI, k, flag, clearTrigger, 
             width={CANVAS_WIDTH}
             height={CANVAS_HEIGHT}
             onClick={handleClick}
-            style={{ border: '2px solid #E9EAEB', cursor: 'crosshair' }}
-            className='m-auto bg-white mt-2 rounded-sm'
+            style={{ border: '1px solid #E9EAEB', cursor: 'crosshair' }}
+            className='m-auto bg-white mt-2'
         />
     );
 }

@@ -345,8 +345,8 @@ function euclidean(p1: Point | Neuron, p2: Point | Neuron) {
       width={CANVAS_WIDTH}
       height={CANVAS_HEIGHT}
       onClick={handleClick}
-      style={{ border: '2px solid #E9EAEB', cursor: 'crosshair' }}
-      className="m-auto bg-white mt-2 rounded-sm"
+      style={{ border: '1px solid #E9EAEB', cursor: 'crosshair' }}
+      className="m-auto bg-white mt-2"
     />
   );
 }

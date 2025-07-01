@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { Button, ButtonGroup, Box } from "@mui/material";
 import LHS from "@/components/LHS";
 import Link from "@/components/link"
@@ -10,6 +10,7 @@ import Kmeans from '@/components/Kmeans'
 import TextField from '@mui/material/TextField';
 import BasicLineChart from "@/components/basicLineGraph";
 import { cluster_1, cluster_2 } from "@/components/data";
+import CustomLabel from "@/components/CustomLabel";
 
 const exam_1 = cluster_1
 const exam_2 = cluster_2
@@ -83,20 +84,20 @@ export default function KNN() {
 
         <div className="mb-7 w-[80%]">
 
-          <TextField id="filled-basic" label="K Value" type="number" variant="standard" className="w-full" value={K}
+          <TextField id="filled-basic" label={<CustomLabel label={"K Value"} definition={'Number of clusters'} />} type="number" variant="standard" className="w-full" value={K}
             onChange={(e) => setK(Number(e.target.value))} />
 
         </div>
 
         <div className="mb-7 w-[80%]">
 
-          <TextField id="filled-basic" label="Max Iteration" type="number" variant="standard" className="w-full" value={maxI}
+          <TextField id="filled-basic" label={<CustomLabel label={"Max Iteration"} definition={'Maximum number of steps an algorithm takes before stopping.'} />} type="number" variant="standard" className="w-full" value={maxI}
             onChange={(e) => setMaxI(Number(e.target.value))} />
 
         </div>
 
         <Button variant="contained" className="py-5" color="inherit" onClick={(e) => setValue(!value)}>Classify The Points</Button>
-        <div className="mt-2">
+        <div className="mt-3">
           <Button variant="contained" className="py-5" color="inherit" onClick={(e) => setClearTrigger(!clearTrigger)}>Clear The Graph</Button>
         </div>
 

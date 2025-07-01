@@ -1,7 +1,7 @@
 "use client";
 
-import { useState, useEffect } from "react";
-import { Button } from "@mui/material";
+import React, { useState, useEffect } from "react";
+import {Button, IconButton, Tooltip} from "@mui/material";
 import LHS from "@/components/LHS";
 import Link from "@/components/link"
 import AttributeList from "@/components/AttributeList";
@@ -9,6 +9,8 @@ import DBSCAN from "@/components/DBSCAN";
 import Explanation from "@/components/Explanation"
 import TextField from '@mui/material/TextField';
 import { cluster_1, cluster_2 } from "@/components/data";
+import InfoOutlinedIcon from "@mui/icons-material/InfoOutlined";
+import CustomLabel from "@/components/CustomLabel";
 
 const exam_1 = cluster_1
 const exam_2 = cluster_2
@@ -63,14 +65,23 @@ export default function KNN() {
 
               <div className="mb-5 w-[80%]">
 
-                <TextField id="filled-K" label="ε (Epsilon)" type="number" inputProps={{ step: "0.2" }} variant="standard" className="w-full" value={eps}
-                onChange={(e) => setEps(Number(e.target.value))}  />
+                <TextField id="filled-K"
+                           label={<CustomLabel label={'Epsilon ε'} definition={'Max distance between 2 neighbouring pts'} />}
+                           type="number"
+                           inputProps={{ step: "0.2" }}
+                           variant="standard"
+                           className="w-full" value={eps}
+                           onChange={(e) => setEps(Number(e.target.value))}
+                />
 
               </div>
 
               <div className="mb-7 w-[80%]">
 
-                <TextField id="filled-basic" label="K (Number of Neighbour)" type="number" variant="standard" className="w-full" value={K}
+                <TextField id="filled-basic"
+                           label={<CustomLabel label={'K (Number of Neighbour)'} definition={'Number of points within ε to be considered as a core point'} />}
+                           type="number" variant="standard"
+                           className="w-full" value={K}
                 onChange={(e) => setK(Number(e.target.value))}  />
 
               </div>

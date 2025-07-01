@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { Button, ButtonGroup, Box } from "@mui/material";
 import LHS from "@/components/LHS";
 import Link from "@/components/link"
@@ -13,6 +13,7 @@ import { styled } from '@mui/material/styles';
 import Papa from 'papaparse';
 import { predictNaiveBayesClass } from "@/components/Naive/makePrediction";
 import PredictionResultDisplay from "@/components/Naive/result";
+import CustomLabel from "@/components/CustomLabel";
 
 
 export default function KNN() {
@@ -210,7 +211,7 @@ export default function KNN() {
 
         <div className="mb-5 w-[80%]">
 
-          <TextField id="filled-basic" label="K (smoothing Factor)" variant="standard" className="w-full mb-5" value={K}
+          <TextField id="filled-basic" label={<CustomLabel label={"K Smoothing Factor"} definition={'A smoothing factor controls how much a model or curve smooths out fluctuations or noise in the data'} />} variant="standard" className="w-full mb-5" value={K}
           onChange={(e) => setK(Number(e.target.value))} type="number" inputProps={{ step: "any" }} />
 
         </div>

@@ -209,10 +209,10 @@ const Graph: React.FC<GraphProps> = ({
   };
 
   return (
-    <div>
+    <div className={`md:ml-auto ml-0 md:mr-4 mr-0 md:mt-0 mt-6`}>
       <Line data={chartData} options={chartOptions} />
-      <div className="mt-8"><span className='text-lg italic font'>Current Episode:: </span> {episode}</div>
-      <div className="mt-4 flex gap-3 items-center flex-wrap">
+      <div className="mt-8"><span className='text-lg italic font'>Current Episode: </span> {episode}</div>
+      <div className="mt-4 flex md:flex-row flex-col gap-3 items-center flex-wrap">
         <button className="bg-blue-500 text-white px-3 py-2 rounded" onClick={runEpisode} disabled={running}>Run Episode</button>
         <button className="bg-green-500 text-white px-3 py-2 rounded" onClick={runUntilGoal} disabled={running}>Auto Run</button>
         <button className="bg-red-500 text-white px-3 py-2 rounded" onClick={stopAutoRun} disabled={!running}>Stop Auto Run</button>

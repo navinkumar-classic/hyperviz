@@ -1,13 +1,14 @@
 "use client";
 
 import Image from "next/image";
-import { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { Button, ButtonGroup, Box } from "@mui/material";
 import LHS from "@/components/LHS";
 import Link from "@/components/link"
 import AttributeList from "@/components/AttributeList";
 import LinearRegression from "@/components/linearRegression";
 import TextField from '@mui/material/TextField';
+import CustomLabel from "@/components/CustomLabel";
 
 
 export default function KNN() {
@@ -31,7 +32,8 @@ export default function KNN() {
 
         <LHS buttonsList={[btndm]} heading="Linear Regression" parameters={["Type of Regression"]} />
 
-        <TextField id="filled-basic" label="λ parameter for Ridge Regression" variant="standard" className="w-[80%]" value={lambda}
+        <TextField id="filled-basic"
+                   label={<CustomLabel label={"λ parameter for Ridge Regression"} definition={'controls the strength of the L2 regularization applied to the model'} />} variant="standard" className="w-[80%]" value={lambda}
         onChange={(e) => setLambda(Number(e.target.value))} type="number" inputProps={{ step: "any" }} />
 
         <div className="mt-3">

@@ -17,24 +17,41 @@ const Grid: React.FC<GridProps> = ({ rows, cols, goal, currentPos, obstacles }) 
       for (let j = 0; j < cols; j++) {
         const isObstacle = obstacles.some(([ox, oy]) => ox === i && oy === j);
         let content = '';
-        if (i === goal[0] && j === goal[1]) content = '🏁';
-        else if (i === currentPos[0] && j === currentPos[1]) content = '🤖';
+        if (i === goal[0] && j === goal[1]) content = '';
+        else if (i === currentPos[0] && j === currentPos[1]) content = '';
 
         row.push(
-          <div
-            key={`${i},${j}`}
-            className={`w-20 h-20 flex-col border flex items-center justify-center text-xl font-bold ${
-              isObstacle
-                ? 'bg-black'
-                : i === goal[0] && j === goal[1]
-                ? 'bg-green-300'
-                : i === currentPos[0] && j === currentPos[1]
-                ? 'bg-yellow-300'
-                : 'bg-white'
-            }`}
-          >
-            {content}
-          </div>
+            <div
+                key={`${i},${j}`}
+                className={`md:w-20 md:h-20 w-12 h-12 flex-col border-2 border-[#E9EAEB] md:m-[2px] m-[1px] flex items-center justify-center text-xl font-bold ${
+                    isObstacle || (i === goal[0] && j === goal[1]) || (i === currentPos[0] && j === currentPos[1])
+                        ? ''
+                        : 'bg-white'
+                }`}
+                style={
+                  isObstacle
+                      ? {
+                        backgroundImage: "url('/barrier.png')",
+                        backgroundSize: 'cover',
+                        backgroundPosition: 'center',
+                      }
+                      : i === goal[0] && j === goal[1]
+                          ? {
+                            backgroundImage: "url('/finish.jpg')",
+                            backgroundSize: 'cover',
+                            backgroundPosition: 'center',
+                          }
+                          : i === currentPos[0] && j === currentPos[1]
+                              ? {
+                                backgroundImage: "url('/car.jpg')",
+                                backgroundSize: 'cover',
+                                backgroundPosition: 'center',
+                              }
+                              : undefined
+                }
+            >
+              {isObstacle ? '' : content}
+            </div>
         );
       }
       grid.push(
