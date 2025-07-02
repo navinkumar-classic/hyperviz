@@ -5,7 +5,7 @@ import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
 import { Box, InputLabel, FormControl, NativeSelect, Select, MenuItem } from '@mui/material';
 import { SelectChangeEvent } from "@mui/material";
 
-export default function LHS({ buttonsList, heading, parameters }: { buttonsList: { name: string; func: () => void; }[][], heading: string, parameters: string[] }) {
+export default function LHS({ buttonsList, heading, parameters, description }: { buttonsList: { name: string; func: () => void; }[][], heading: string, parameters: string[], description: string[] }) {
     const actionsMap = Object.fromEntries(
         buttonsList.flat().map(button => [button.name, button.func])
     );
@@ -46,7 +46,7 @@ export default function LHS({ buttonsList, heading, parameters }: { buttonsList:
                         <InputLabel id="demo-simple-select-standard-label">
                             {parameters[btnindex]} &nbsp;
 
-                            <Tooltip title="This is a description or hint about the parameter" arrow>
+                            <Tooltip title={description[btnindex]} arrow>
                                 <IconButton size="small" sx={{ color: 'black' }}>
                                     <InfoOutlinedIcon fontSize="inherit" />
                                 </IconButton>

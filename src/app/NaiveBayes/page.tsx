@@ -14,6 +14,7 @@ import Papa from 'papaparse';
 import { predictNaiveBayesClass } from "@/components/Naive/makePrediction";
 import PredictionResultDisplay from "@/components/Naive/result";
 import CustomLabel from "@/components/CustomLabel";
+import Explanation from "@/components/Explanation";
 
 
 export default function KNN() {
@@ -23,9 +24,10 @@ export default function KNN() {
   const [mae, setMae] = useState<number>(0);
   const [laplaceSmoothing, setLaplaceSmoothing] = useState<string>("None");
   const [K, setK] = useState<number>(1);
-  const [features, setFeatures] = useState<string[]|null>(null)
-  const [input, setInput] = useState<string[]|null>(null)
-  const [result, setResult] = useState<any>(null)
+  const [features, setFeatures] = useState<string[]|null>(null);
+  const [input, setInput] = useState<string[]|null>(null);
+  const [result, setResult] = useState<any>(null);
+  const [explain,setexplain]=useState(false);
 
   const btndm = [
     { name: "None", func: () => setLaplaceSmoothing("None") },
@@ -205,59 +207,67 @@ export default function KNN() {
 
   return (
     <div className="flex flex-grow md:flex-row flex-col">
-      <div className="bg-[#FFFFFF] basis-[22.5%] border-r-2 border-[#E9EAEB] flex flex-col items-center overflow-y-auto h-[87vh]">
+      <div className={`bg-[#FFFFFF] basis-[22.5%] border-r-2 border-[#E9EAEB] flex flex-col items-center overflow-y-auto h-[87vh] ${explain?'basis-[40%]':'basis-[22.5%]'}`}>
+        {explain? (
+            <div className="grow overflow-y-auto bg-transparent bg-opacity-0">
+              <Explanation model={"DBSCAN"} onExplainClick={setexplain}/>
+            </div>
+        ):(
+            <>
+              <LHS buttonsList={[btndm]} heading="Naive Bayes Classifier" parameters={["Laplace Smoothing"]} description={['test']} />
 
-        <LHS buttonsList={[btndm]} heading="Naive Bayes Classifier" parameters={["Laplace Smoothing"]} />
+              <div className="mb-5 w-[80%]">
 
-        <div className="mb-5 w-[80%]">
+                <TextField id="filled-basic" label={<CustomLabel label={"K Smoothing Factor"} definition={'A smoothing factor controls how much a model or curve smooths out fluctuations or noise in the data'} />} variant="standard" className="w-full mb-5" value={K}
+                           onChange={(e) => setK(Number(e.target.value))} type="number" inputProps={{ step: "any" }} />
 
-          <TextField id="filled-basic" label={<CustomLabel label={"K Smoothing Factor"} definition={'A smoothing factor controls how much a model or curve smooths out fluctuations or noise in the data'} />} variant="standard" className="w-full mb-5" value={K}
-          onChange={(e) => setK(Number(e.target.value))} type="number" inputProps={{ step: "any" }} />
+              </div>
 
-        </div>
+              <Button
+                  component="label"
+                  role={undefined}
+                  variant="contained"
+                  tabIndex={-1}
+                  startIcon={<CloudUploadIcon />}
+              >
+                Upload files
+                <VisuallyHiddenInput
+                    type="file"
+                    multiple
+                    accept=".csv"
+                    onChange={handleFileUpload}
+                />
+              </Button>
 
-        <Button
-          component="label"
-          role={undefined}
-          variant="contained"
-          tabIndex={-1}
-          startIcon={<CloudUploadIcon />}
-        >
-          Upload files
-          <VisuallyHiddenInput
-            type="file"
-            multiple
-            accept=".csv"
-            onChange={handleFileUpload}
-          />
-        </Button>
+              {features && input && (
+                  <div className="w-[100%] mt-3 flex flex-col items-center">
+                    {
+                      features?.map((value,index) => (
+                          <div id={`f-${value}`} key={`feature-${index}`}className="mb-4">
+                            <TextField id={`f-${value}`} label={value[0].toUpperCase()+value.slice(1,)} variant="filled" className="w-full mb-5"
+                                       value = {input[index]} onChange={(e)=>{handleInputModel(e,index)}}/>
+                          </div>
+                      ))
+                    }
 
-        {features && input && (
-          <div className="w-[100%] mt-3 flex flex-col items-center">
-            {
-              features?.map((value,index) => (
-                <div id={`f-${value}`} key={`feature-${index}`}className="mb-4">
-                  <TextField id={`f-${value}`} label={value[0].toUpperCase()+value.slice(1,)} variant="filled" className="w-full mb-5" 
-                  value = {input[index]} onChange={(e)=>{handleInputModel(e,index)}}/>
-                </div>
-              ))
-            }
-
-            <Button
-              component="label"
-              role={undefined}
-              variant="contained"
-              tabIndex={-1}
-              onClick = {(e)=>calculateResult()}
-              className="mx-auto"
-            >
-              Classify
-            </Button>
-          </div>
+                    <Button
+                        component="label"
+                        role={undefined}
+                        variant="contained"
+                        tabIndex={-1}
+                        onClick = {(e)=>calculateResult()}
+                        className="mx-auto"
+                    >
+                      Classify
+                    </Button>
+                  </div>
+              )}
+              <Link model={"DBSCAN"} onExplainClick={setexplain}/>
+            </>
         )}
 
       </div>
-      <div className="basis-[77.5%] bg-[#FAFAFA] flex flex-col p-5 px-9 items-center overflow-y-auto h-[87vh]">
+      <div className={`${explain?'basis-[60%]':'basis-[77.5%]'} bg-[#FAFAFA] flex flex-col p-5 px-9 items-center overflow-y-auto h-[87vh]`}>
 
         {
           priors && probabilities && (

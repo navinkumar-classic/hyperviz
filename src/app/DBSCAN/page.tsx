@@ -27,7 +27,7 @@ export default function KNN() {
   const [clearTrigger, setClearTrigger] = useState<Boolean>(true);
   const [points,setPoints] = useState<Point[]>([])
   const [exam,setExam] = useState<string>("")
-  const [expl_dbscan,setexpl_dbscan]=useState(false)
+  const [explain,setexplain]=useState(false)
   const btndm = [
     { name: "None", func: () => setExam("") },
     { name: "Moons", func: () => setExam("exam_1") },
@@ -51,17 +51,17 @@ export default function KNN() {
   },[exam])
 
   
-  console.log(expl_dbscan)
+  console.log(explain)
   return (
     <div className="flex flex-grow md:flex-row flex-col">
-      <div className={`bg-[#FFFFFF] h-[87vh] border-r-2 border-[#E9EAEB] flex flex-col items-center  ${expl_dbscan?'basis-[40%]':'basis-[22.5%]'}`}>
-          {expl_dbscan? (
+      <div className={`bg-[#FFFFFF] h-[87vh] border-r-2 border-[#E9EAEB] flex flex-col items-center  ${explain?'basis-[40%]':'basis-[22.5%]'}`}>
+          {explain? (
             <div className="grow overflow-y-auto bg-transparent bg-opacity-0">
-              <Explanation model={"DBSCAN"} onExplainClick={setexpl_dbscan}/>
+              <Explanation model={"DBSCAN"} onExplainClick={setexplain}/>
               </div>
           ):(
             <>
-              <LHS buttonsList={[btndm]} heading="DBSCAN" parameters={["Example Dataset"]} />
+              <LHS buttonsList={[btndm]} heading="DBSCAN" parameters={["Example Dataset"]} description={['test']} />
 
               <div className="mb-5 w-[80%]">
 
@@ -91,23 +91,23 @@ export default function KNN() {
                 <Button variant="contained" className="py-5" color="inherit" onClick={(e)=>setClearTrigger(!clearTrigger)}>Clear The Graph</Button>
               </div>
 
-              <Link model={"DBSCAN"} onExplainClick={setexpl_dbscan}/>
+              <Link model={"DBSCAN"} onExplainClick={setexplain}/>
             </>
       )}
 
       </div>
-      <div className={`${expl_dbscan?'basis-[60%]':'basis-[77.5%]'} bg-[#FAFAFA] flex flex-col p-5 px-9 items-center overflow-y-auto h-[87vh]`}>
+      <div className={`${explain?'basis-[60%]':'basis-[77.5%]'} bg-[#FAFAFA] flex flex-col p-5 px-9 items-center overflow-y-auto h-[87vh]`}>
       
         <div className="w-[100%] mt-1 flex flex-col items-center bg-white border-1 border-[#E9EAEB] rounded-lg p-4">
           {/* for the info above the play button. 1st list is for 1st row and 2nd list is for 2nd row*/}
           <AttributeList AttributeInfo={
-            [[{ label: "K- Number of Neighbour", value: K.toString(), num: 3, basis: 'basis-[40%]' },
-              { label: "ε- Max distance between 2 neighbouring pts", value: eps.toString(), num: 3, basis: 'basis-[40%]' }
+            [[{ label: "K- Number of Neighbour", value: K.toString(), num: 3, basis: 'basis-[40%]', description: 'test' },
+              { label: "ε- Max distance between 2 neighbouring pts", value: eps.toString(), num: 3, basis: 'basis-[40%]', description: 'test' }
             ],
-            [{ label: "Core Points", value: core.toString(), num: 4, basis: 'basis-[20%]' },
-            { label: "Boundary Points", value: boundary.toString(), num: 4, basis: 'basis-[20%]' },
-            { label: "Outliers (Gray)", value: outlier.toString(), num: 4, basis: 'basis-[20%]' },
-            { label: "Silhouette Score", value: silhouette.toString(), num: 4, basis: 'basis-[20%]' },
+            [{ label: "Core Points", value: core.toString(), num: 4, basis: 'basis-[20%]', description: 'test' },
+            { label: "Boundary Points", value: boundary.toString(), num: 4, basis: 'basis-[20%]', description: 'test' },
+            { label: "Outliers (Gray)", value: outlier.toString(), num: 4, basis: 'basis-[20%]', description: 'test' },
+            { label: "Silhouette Score", value: silhouette.toString(), num: 4, basis: 'basis-[20%]', description: 'test' },
             ]]
           }
           />

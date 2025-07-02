@@ -2,7 +2,7 @@ import {IconButton, Tooltip} from "@mui/material";
 import InfoOutlinedIcon from "@mui/icons-material/InfoOutlined";
 import React from "react";
 
-export default function AttributeList({ AttributeInfo }: { AttributeInfo: { label: string, value: string, num: number, basis: string }[][] }) {
+export default function AttributeList({ AttributeInfo }: { AttributeInfo: { label: string, value: string, description: string, num: number, basis: string }[][] }) {
 
     return (
         <>
@@ -13,7 +13,7 @@ export default function AttributeList({ AttributeInfo }: { AttributeInfo: { labe
                         <h1 className={`${attribue.basis} mr-4 mb-2 border-b-2 border-b-[#E9EAEB] min-w-[200px]`} key={`${index}`}>
                             <div className="text-sm font-light flex">
                                 {attribue.label} &nbsp;
-                                <Tooltip title="This is a description or hint about the parameter" arrow>
+                                <Tooltip title={attribue.description} arrow>
                                     <IconButton size="small" sx={{ padding: 0, color: 'black', fontSize: '14px' }}>
                                         <InfoOutlinedIcon fontSize="inherit" />
                                     </IconButton>

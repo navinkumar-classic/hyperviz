@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { Button, ButtonGroup, Box } from "@mui/material";
 import LHS from "@/components/LHS";
 import Link from "@/components/link"
@@ -13,6 +13,7 @@ import OriginalPlot from '@/components/PCA'
 import Graph from "@/components/Qlearning/Graph";
 import Grid from "@/components/Qlearning/Grid";
 import { Slider } from "@mui/material";
+import Explanation from "@/components/Explanation";
 
 type Position = [number, number];
 type Action = 'up' | 'down' | 'left' | 'right';
@@ -49,6 +50,7 @@ export default function KNN() {
   const [eps, setEps] = useState<number>(1);
   const [K, setK] = useState<number>(3);
   const [clearTrigger, setClearTrigger] = useState<Boolean>(true);
+  const [explain,setexplain]=useState(false);
 
 
   const [obstacles, setObstacles] = useState<Position[]>([
@@ -77,43 +79,51 @@ export default function KNN() {
 
   return (
     <div className="flex flex-grow md:flex-row flex-col">
-      <div className="bg-[#FFFFFF] basis-[22.5%] border-r-2 border-[#E9EAEB] flex flex-col items-center">
+      <div className={`bg-[#FFFFFF] border-r-2 border-[#E9EAEB] flex flex-col items-center ${explain?'basis-[40%]':'basis-[22.5%]'}`}>
 
-        <div className="w-[80%] rounded-tr-2xl rounded-bl-2xl bg-white my-4 py-4 flex flex-col items-center text-black px-4 border-t-3 border-t-[#E9EAEB] border-b-3 border-b-[#E9EAEB]">
-          <div className="text-xl font-semibold text-center mb-2 pl-2">QLearning</div>
-          <div className="text-md font-light italic text-center pb-2">Choose Your HyperParameter</div>
-        </div>
+        {explain? (
+            <div className="grow overflow-y-auto bg-transparent bg-opacity-0">
+              <Explanation model={"DBSCAN"} onExplainClick={setexplain}/>
+            </div>
+        ):(
+            <>
+              <div className="w-[80%] rounded-tr-2xl rounded-bl-2xl bg-white my-4 py-4 flex flex-col items-center text-black px-4 border-t-3 border-t-[#E9EAEB] border-b-3 border-b-[#E9EAEB]">
+                <div className="text-xl font-semibold text-center mb-2 pl-2">QLearning</div>
+                <div className="text-md font-light italic text-center pb-2">Choose Your HyperParameter</div>
+              </div>
 
-        <div className="mt-4 w-[80%]">
-          <label><span className="italic font-semibold">Learning Rate:</span> {alpha.toFixed(2)}</label>
-          <Slider
-            value={alpha}
-            onChange={(e, value) => setAlpha(value as number)}
-            aria-label="Default"
-            valueLabelDisplay="auto"
-            min={0}
-            max={1}
-            step={0.01}
-          />
-        </div>
+              <div className="mt-4 w-[80%]">
+                <label><span className="italic font-semibold">Learning Rate:</span> {alpha.toFixed(2)}</label>
+                <Slider
+                    value={alpha}
+                    onChange={(e, value) => setAlpha(value as number)}
+                    aria-label="Default"
+                    valueLabelDisplay="auto"
+                    min={0}
+                    max={1}
+                    step={0.01}
+                />
+              </div>
 
-        <div className="w-[80%]">
-          <label><span className="italic font-semibold">Discount Factor (Gamma):</span> {gamma.toFixed(2)}</label>
-          <Slider
-            value={gamma}
-            onChange={(e, value) => setGamma(value as number)}
-            aria-label="Default"
-            valueLabelDisplay="auto"
-            min={0}
-            max={1}
-            step={0.01}
-          />
-        </div>
+              <div className="w-[80%]">
+                <label><span className="italic font-semibold">Discount Factor (Gamma):</span> {gamma.toFixed(2)}</label>
+                <Slider
+                    value={gamma}
+                    onChange={(e, value) => setGamma(value as number)}
+                    aria-label="Default"
+                    valueLabelDisplay="auto"
+                    min={0}
+                    max={1}
+                    step={0.01}
+                />
+              </div>
 
-
+              <Link model={"DBSCAN"} onExplainClick={setexplain}/>
+            </>
+        )}
 
       </div>
-      <div className="basis-[77.5%] bg-[#FAFAFA] flex flex-col p-5 px-9 items-center overflow-y-auto h-[87vh]">
+      <div className={`${explain?'basis-[60%]':'basis-[77.5%]'} bg-[#FAFAFA] flex flex-col p-5 px-9 items-center overflow-y-auto h-[87vh]`}>
 
         <h1 className="text-2xl mb-4 py-5 italic">Q-Learning Maze Visualizer</h1>
         <div className="flex w-full md:flex-row flex-col">
