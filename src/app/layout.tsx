@@ -47,7 +47,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={` ${montSerrat.variable} ${plexMono.variable} ${scopeOne.variable} ${inter.variable} ${blackOps.variable} antialiased flex flex-col min-h-screen bg-amber-900 md:overflow-y-hidden overflow-y-auto`}
+        className={` ${montSerrat.variable} ${plexMono.variable} ${scopeOne.variable} ${inter.variable} ${blackOps.variable} antialiased flex flex-col min-h-screen md:overflow-y-hidden overflow-y-auto`}
       >
         <Navbar />
         {children}
