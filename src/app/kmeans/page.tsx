@@ -80,50 +80,48 @@ export default function KNN() {
 
   return (
     <div className="flex flex-grow md:flex-row flex-col">
-      <div className={`bg-[#FFFFFF] border-r-2 border-[#E9EAEB] flex flex-col items-center ${explain?'basis-[40%]':'basis-[22.5%]'}`}>
+      <div className={`bg-[#FFFFFF] h-[87vh] md:border-r-2 border-b-2 border-[#E9EAEB] flex flex-col items-center ${explain?'basis-[40%]':'basis-[22.5%]'} overflow-y-auto`}>
 
         {explain? (
-            <div className="grow overflow-y-auto bg-transparent bg-opacity-0">
-              <Explanation model={"DBSCAN"} onExplainClick={setexplain}/>
-            </div>
+              <Explanation model={"KMeans"} onExplainClick={setexplain}/>
         ):(
             <>
-              <LHS buttonsList={[btndb,btndm]} heading="K Means" parameters={["Dataset","Initialization"]} description={['test', 'test']} />
+              <LHS buttonsList={[btndb,btndm]} heading="K Means" parameters={["Dataset","Initialization"]} description={['Predefined Datasets', ' Determines starting centroids. Poor initialization can lead to bad convergence; k-means++ reduces that risk by spreading centroids.']} />
 
               <div className="mb-7 w-[80%]">
 
-                <TextField id="filled-basic" label={<CustomLabel label={"K Value"} definition={'Number of clusters'} />} type="number" variant="standard" className="w-full" value={K}
+                <TextField id="filled-basic" label={<CustomLabel label={"K Value"} definition={'Sets the number of clusters. A small K can merge distinct groups, while a large K may over-segment. The optimal K balances compactness and separation.'} />} type="number" variant="standard" className="w-full" value={K}
                            onChange={(e) => setK(Number(e.target.value))} />
 
               </div>
 
               <div className="mb-7 w-[80%]">
 
-                <TextField id="filled-basic" label={<CustomLabel label={"Max Iteration"} definition={'Maximum number of steps an algorithm takes before stopping.'} />} type="number" variant="standard" className="w-full" value={maxI}
+                <TextField id="filled-basic" label={<CustomLabel label={"Max Iteration"} definition={'Defines how many times the algorithm updates the centroids; if set too low, it may stop before converging, while too high may lead to unnecessary computation.'} />} type="number" variant="standard" className="w-full" value={maxI}
                            onChange={(e) => setMaxI(Number(e.target.value))} />
 
               </div>
 
               <Button variant="contained" className="py-5" color="inherit" onClick={(e) => setValue(!value)}>Classify The Points</Button>
-              <div className="mt-3">
+              <div className="mt-5">
                 <Button variant="contained" className="py-5" color="inherit" onClick={(e) => setClearTrigger(!clearTrigger)}>Clear The Graph</Button>
               </div>
 
-              <Link model={"DBSCAN"} onExplainClick={setexplain}/>
+              <Link model={"KMeans"} onExplainClick={setexplain}/>
             </>
         )}
 
       </div>
-      <div className={`${explain?'basis-[60%]':'basis-[77.5%]'} basis-[77.5%] bg-[#FAFAFA] flex flex-col p-5 px-6 items-center overflow-y-auto h-[87vh]`}>
+      <div className={`${explain?'basis-[60%]':'basis-[77.5%]'} bg-[#FAFAFA] flex flex-col p-5 px-6 items-center overflow-y-auto h-[87vh]`}>
 
-        <div className="w-[80%] mt-1 flex flex-col items-center bg-white border-1 border-[#E9EAEB] rounded-lg p-4">
+        <div className="md:w-[80%] w-[100%] mt-1 flex flex-col items-center bg-white border-1 border-[#E9EAEB] rounded-lg p-4">
           {/* for the info above the play button. 1st list is for 1st row and 2nd list is for 2nd row*/}
           <AttributeList AttributeInfo={
-            [[{ label: "K Value", value: K.toString(), num: 2, basis: 'basis-[40%]', description: 'test' },
-            { label: "Initialization", value: init.toString(), num: 2, basis: 'basis-[40%]', description: 'test' }
+            [[{ label: "K Value", value: K.toString(), num: 2, basis: 'basis-[40%]', description: 'Sets the number of clusters. A small K can merge distinct groups, while a large K may over-segment. The optimal K balances compactness and separation.'},
+            { label: "Initialization", value: init.toString(), num: 2, basis: 'basis-[40%]', description: 'Determines starting centroids. Poor initialization can lead to bad convergence; k-means++ reduces that risk by spreading centroids.' }
             ],
-            [{ label: "WCSS", value: core.toString(), num: 4, basis: 'basis-[20%]', description: 'test' },
-            { label: "Silhouette Score", value: silhouette.toString(), num: 4, basis: 'basis-[20%]', description: 'test' },
+            [{ label: "WCSS", value: core.toString(), num: 4, basis: 'basis-[20%]', description: 'Within-Cluster Sum of Squares measures compactness of clusters. Lower WCSS indicates tighter clusters but always decreases with higher K.' },
+            { label: "Silhouette Score", value: silhouette.toString(), num: 4, basis: 'basis-[20%]', description: 'Quantifies how well a point fits in its cluster compared to others. Higher values (closer to 1) mean better-defined clusters.' },
             ]]
           }
           />

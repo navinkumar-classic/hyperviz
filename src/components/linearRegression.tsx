@@ -2,8 +2,8 @@ import React, { useRef, useEffect, useState } from 'react';
 
 type Point = { x: number; y: number };
 
-const CANVAS_WIDTH = 630;
-const CANVAS_HEIGHT = 359;
+let CANVAS_WIDTH = 630;
+let CANVAS_HEIGHT = 359;
 
 const AXIS_COLOR = '#8b929a'; //'#5e977a
 const MAIN_AXIS_COLOR = 'black';
@@ -12,9 +12,9 @@ const MARGIN_LEFT = 45;
 const MARGIN_BOTTOM = 45;
 const MARGIN_LEFT_GUIDE = 0;
 const MARGIN_BOTTOM_GUIDE = 0;
-const UNIT = 45; // 1 unit = 45px
-const X_RANGE = 13;
-const Y_RANGE = 7;
+let UNIT = 45; // 1 unit = 45px
+let X_RANGE = 13;
+let Y_RANGE = 7;
 
 type LinearRegressionProps = {
   r2func: React.Dispatch<React.SetStateAction<number>>;
@@ -220,6 +220,16 @@ export default function LinearRegression({ r2func, maefunc, rmsefunc, reg, lambd
     if (!canvas) return;
     const ctx = canvas.getContext('2d');
     if (!ctx) return;
+
+    if (window.innerWidth < 768) {
+      CANVAS_WIDTH = 320;
+      CANVAS_HEIGHT = 320;
+      UNIT = 30;
+      Y_RANGE = 10;
+    } else {
+      CANVAS_WIDTH = 630;
+      CANVAS_HEIGHT = 359;
+    }
 
     ctx.clearRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
     // Save original size

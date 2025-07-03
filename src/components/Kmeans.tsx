@@ -2,8 +2,8 @@ import React, { useRef, useEffect, useState } from 'react';
 
 type Point = { x: number; y: number };
 
-const CANVAS_WIDTH = 495;
-const CANVAS_HEIGHT = 404;
+let CANVAS_WIDTH = 495;
+let CANVAS_HEIGHT = 404;
 
 const AXIS_COLOR = '#8b929a'; //'#5e977a
 const MAIN_AXIS_COLOR = 'black';
@@ -12,9 +12,9 @@ const MARGIN_LEFT = 45;
 const MARGIN_BOTTOM = 45;
 const MARGIN_LEFT_GUIDE = 0;
 const MARGIN_BOTTOM_GUIDE = 0;
-const UNIT = 45; // 1 unit = 45px
-const X_RANGE = 10;
-const Y_RANGE = 8;
+let UNIT = 45; // 1 unit = 45px
+let X_RANGE = 10;
+let Y_RANGE = 8;
 
 function euclidean(p1: Point, p2: Point) {
     return Math.sqrt((p1.x - p2.x) ** 2 + (p1.y - p2.y) ** 2);
@@ -194,6 +194,16 @@ export default function Kmeans({ core, silh, init, maxI, k, flag, clearTrigger, 
         if (!canvas) return;
         const ctx = canvas.getContext('2d');
         if (!ctx) return;
+
+        if (window.innerWidth < 768) {
+            CANVAS_WIDTH = 320;
+            CANVAS_HEIGHT = 320;
+            UNIT = 30;
+            Y_RANGE = 10;
+        } else {
+            CANVAS_WIDTH = 495;
+            CANVAS_HEIGHT = 404;
+        }
 
         ctx.clearRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
         // Save original size

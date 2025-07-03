@@ -207,10 +207,10 @@ export default function KNN() {
 
   return (
     <div className="flex flex-grow md:flex-row flex-col">
-      <div className={`bg-[#FFFFFF] basis-[22.5%] border-r-2 border-[#E9EAEB] flex flex-col items-center overflow-y-auto h-[87vh] ${explain?'basis-[40%]':'basis-[22.5%]'}`}>
+      <div className={`bg-[#FFFFFF] basis-[22.5%] md:border-r-2 border-b-2 border-[#E9EAEB] flex flex-col items-center overflow-y-auto h-[87vh] ${explain?'basis-[40%]':'basis-[22.5%]'}`}>
         {explain? (
             <div className="grow overflow-y-auto bg-transparent bg-opacity-0">
-              <Explanation model={"DBSCAN"} onExplainClick={setexplain}/>
+              <Explanation model={"Naive"} onExplainClick={setexplain}/>
             </div>
         ):(
             <>
@@ -262,7 +262,7 @@ export default function KNN() {
                     </Button>
                   </div>
               )}
-              <Link model={"DBSCAN"} onExplainClick={setexplain}/>
+              <Link model={"Naive"} onExplainClick={setexplain}/>
             </>
         )}
 

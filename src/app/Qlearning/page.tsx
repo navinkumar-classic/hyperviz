@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import React, { useState, useEffect, useRef } from "react";
-import { Button, ButtonGroup, Box } from "@mui/material";
+import {Button, ButtonGroup, Box, IconButton, Tooltip} from "@mui/material";
 import LHS from "@/components/LHS";
 import Link from "@/components/link"
 import AttributeList from "@/components/AttributeList";
@@ -14,6 +14,7 @@ import Graph from "@/components/Qlearning/Graph";
 import Grid from "@/components/Qlearning/Grid";
 import { Slider } from "@mui/material";
 import Explanation from "@/components/Explanation";
+import InfoOutlinedIcon from "@mui/icons-material/InfoOutlined";
 
 type Position = [number, number];
 type Action = 'up' | 'down' | 'left' | 'right';
@@ -79,11 +80,11 @@ export default function KNN() {
 
   return (
     <div className="flex flex-grow md:flex-row flex-col">
-      <div className={`bg-[#FFFFFF] border-r-2 border-[#E9EAEB] flex flex-col items-center ${explain?'basis-[40%]':'basis-[22.5%]'}`}>
+      <div className={`bg-[#FFFFFF] md:border-r-2 border-b-2 border-[#E9EAEB] flex flex-col items-center ${explain?'basis-[40%]':'basis-[22.5%]'}`}>
 
         {explain? (
             <div className="grow overflow-y-auto bg-transparent bg-opacity-0">
-              <Explanation model={"DBSCAN"} onExplainClick={setexplain}/>
+              <Explanation model={"QLearning"} onExplainClick={setexplain}/>
             </div>
         ):(
             <>
@@ -93,7 +94,18 @@ export default function KNN() {
               </div>
 
               <div className="mt-4 w-[80%]">
-                <label><span className="italic font-semibold">Learning Rate:</span> {alpha.toFixed(2)}</label>
+                <label>
+                  <span
+                      className="italic font-semibold">Learning Rate &nbsp;
+                    <Tooltip title={`Determines how much newly acquired information overrides old knowledge; high values adapt quickly but can be unstable, while low values update slowly.`} arrow>
+                      <IconButton size="small" sx={{ padding: 0, color: 'black'}}>
+                          <InfoOutlinedIcon fontSize="inherit" />
+                      </IconButton>
+                    </Tooltip>
+                    :
+                  </span>
+                  &nbsp;{alpha.toFixed(2)}
+                </label>
                 <Slider
                     value={alpha}
                     onChange={(e, value) => setAlpha(value as number)}
@@ -106,7 +118,16 @@ export default function KNN() {
               </div>
 
               <div className="w-[80%]">
-                <label><span className="italic font-semibold">Discount Factor (Gamma):</span> {gamma.toFixed(2)}</label>
+                <label>
+                  <span className="italic font-semibold">Discount Factor (Gamma) &nbsp;
+                    <Tooltip title={`Controls the importance of future rewards; values close to 1 favor long-term rewards, while lower values prioritize immediate gains.`} arrow>
+                      <IconButton size="small" sx={{ padding: 0, color: 'black'}}>
+                          <InfoOutlinedIcon fontSize="inherit" />
+                      </IconButton>
+                    </Tooltip>
+                  :</span>
+                  &nbsp;{gamma.toFixed(2)}
+                </label>
                 <Slider
                     value={gamma}
                     onChange={(e, value) => setGamma(value as number)}
@@ -118,7 +139,7 @@ export default function KNN() {
                 />
               </div>
 
-              <Link model={"DBSCAN"} onExplainClick={setexplain}/>
+              <Link model={"QLearning"} onExplainClick={setexplain}/>
             </>
         )}
 

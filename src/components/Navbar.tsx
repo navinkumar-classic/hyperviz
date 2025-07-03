@@ -23,9 +23,9 @@ export default function Navbar() {
     <nav className="text-black md:pr-9 pr-3 md:pl-9 pl-3 md:py-6 py-4 border-b-2 border-b-[#D5D7DA]">
       <div className="container mx-auto flex text-xl justify-between items-center">
         {/* Logo */}
-        <Link href="/" className="text-3xl font-bold flex items-center justify-center">
-          <Image src={"/graph.svg"} width={60} height={60} alt="logo" />
-          <div className="mx-4 font-blackOps font-light md:flex hidden">HyperViz</div>
+        <Link href="/" className="text-2xl font-bold flex items-center justify-center">
+          <Image src={"/graph.svg"} width={50} height={50} alt="logo" />
+          <div className="mx-3 font-blackOps font-light md:flex hidden">HyperViz</div>
         </Link>
 
         <div className={'md:w-[50%] w-[70%] flex'}>
@@ -40,13 +40,16 @@ export default function Navbar() {
               <MenuItem value="">
                 <em>Home</em>
               </MenuItem>
-              <MenuItem value="kmeans">K Means</MenuItem>
               <MenuItem value="linear">Linear and Polynomial Regression</MenuItem>
+              <MenuItem value="kmeans">K Means</MenuItem>
               <MenuItem value="DBSCAN">DBSCAN</MenuItem>
-              <MenuItem value="NaiveBayes">Naive Bayes</MenuItem>
-              <MenuItem value="Qlearning">Reinforcement Learning</MenuItem>
-              <MenuItem value="PCA">PCA</MenuItem>
               <MenuItem value="SOM">SOM</MenuItem>
+              <MenuItem value="Qlearning">Reinforcement Learning</MenuItem>
+              {/*
+                <MenuItem value="PCA">PCA</MenuItem>
+                <MenuItem value="NaiveBayes">Naive Bayes</MenuItem>
+               */}
+
             </Select>
           </FormControl>
 

@@ -55,10 +55,10 @@ export default function KNN() {
 
   return (
     <div className="flex flex-grow md:flex-row flex-col">
-      <div className={`bg-[#FFFFFF] border-r-2 border-[#E9EAEB] flex flex-col items-center ${explain?'basis-[40%]':'basis-[22.5%]'}`}>
+      <div className={`bg-[#FFFFFF] md:border-r-2 border-b-2 border-[#E9EAEB] flex flex-col items-center ${explain?'basis-[40%]':'basis-[22.5%]'}`}>
           {explain? (
               <div className="grow overflow-y-auto bg-transparent bg-opacity-0">
-                <Explanation model={"DBSCAN"} onExplainClick={setexplain}/>
+                <Explanation model={"PCA"} onExplainClick={setexplain}/>
               </div>
           ):(
               <>
@@ -90,15 +90,15 @@ export default function KNN() {
 
                 <Button variant="contained" className="py-5" color="inherit" onClick={(e)=>setValue(!value)}>Add Points</Button>
 
-                <Link model={"DBSCAN"} onExplainClick={setexplain}/>
+                <Link model={"PCA"} onExplainClick={setexplain}/>
               </>
           )}
 
 
       </div>
-      <div className={`${explain?'basis-[60%]':'basis-[77.5%]'} bg-[#FAFAFA] flex flex-col p-5 px-9 items-center overflow-y-auto h-[87vh]`}>
+      <div className={`${explain?'basis-[60%]':'basis-[77.5%]'} bg-[#FAFAFA] flex flex-col p-5 md:px-9 px-4 items-center overflow-y-auto h-[87vh]`}>
       
-        <div className="w-[80%] mt-1 flex flex-col items-center bg-white border-1 border-[#E9EAEB] rounded-lg p-4">
+        <div className="w-[80%] mt-1 flex flex-col items-center bg-white border-1 border-[#E9EAEB] rounded-lg md:p-4 p-2">
           {/* for the info above the play button. 1st list is for 1st row and 2nd list is for 2nd row*/}
           <AttributeList AttributeInfo={
             [[{ label: "Eigen Vector (PC1)", value: eigenvectors[0].map(n => n.toFixed(3)).join(', '), num: 2, basis: 'basis-[40%]', description: 'test' },

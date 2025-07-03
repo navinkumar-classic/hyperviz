@@ -34,10 +34,10 @@ export default function KNN() {
 
   return (
     <div className="flex flex-grow md:flex-row flex-col">
-      <div className={`bg-[#FFFFFF] border-r-2 border-[#E9EAEB] flex flex-col items-center ${explain?'basis-[40%]':'basis-[22.5%]'}`}>
+      <div className={`bg-[#FFFFFF] md:border-r-2 border-b-2 border-[#E9EAEB] flex flex-col items-center ${explain?'basis-[40%]':'basis-[22.5%]'}`}>
         {explain? (
             <div className="grow overflow-y-auto bg-transparent bg-opacity-0">
-              <Explanation model={"DBSCAN"} onExplainClick={setexplain}/>
+              <Explanation model={"SOM"} onExplainClick={setexplain}/>
             </div>
         ):(
             <>
@@ -48,53 +48,53 @@ export default function KNN() {
 
               <div className="mb-5 w-[80%]">
 
-                <TextField id="filled-iteration" label={<CustomLabel label={'Iteration'} definition={'Max distance between 2 neighbouring pts'} />} type="number" variant="standard" className="w-full" value={iterations}
+                <TextField id="filled-iteration" label={<CustomLabel label={'Iteration'} definition={'Number of training steps; more iterations allow better convergence but may increase training time without significant gains after a point.'} />} type="number" variant="standard" className="w-full" value={iterations}
                            onChange={(e) => setIterations(Number(e.target.value))}  />
 
               </div>
 
               <div className="mb-5 w-[80%]">
 
-                <TextField id="filled-learning-rate" label={<CustomLabel label={'Learning Rate'} definition={'Max distance between 2 neighbouring pts'} />} type="number" inputProps={{ step: "0.01" }} variant="standard" className="w-full" value={learningRate}
+                <TextField id="filled-learning-rate" label={<CustomLabel label={'Learning Rate'} definition={'Controls how much the weights update during training; high values lead to faster learning but may cause instability, while low values converge slowly.'} />} type="number" inputProps={{ step: "0.01" }} variant="standard" className="w-full" value={learningRate}
                            onChange={(e) => setLearningRate(Number(e.target.value))}  />
 
               </div>
 
               <div className="mb-5 w-[80%]">
 
-                <TextField id="filled-som-width" label={<CustomLabel label={'SOM Width'} definition={'Max distance between 2 neighbouring pts'} />} type="number" variant="standard" className="w-full" value={somWidth}
+                <TextField id="filled-som-width" label={<CustomLabel label={'SOM Width'} definition={'Defines the horizontal size of the grid; together with height, controls the resolution of the map and separation between data regions.'} />} type="number" variant="standard" className="w-full" value={somWidth}
                            onChange={(e) => setSomWidth(Number(e.target.value))}  />
 
               </div>
 
               <div className="mb-5 w-[80%]">
 
-                <TextField id="filled-som-height" label={<CustomLabel label={'SOM Height'} definition={'Max distance between 2 neighbouring pts'} />} type="number" variant="standard" className="w-full" value={somHeight}
+                <TextField id="filled-som-height" label={<CustomLabel label={'SOM Height'} definition={'Defines the vertical size of the grid; affects how finely the data is mapped and how many nodes are available for clustering.'} />} type="number" variant="standard" className="w-full" value={somHeight}
                            onChange={(e) => setSomHeight(Number(e.target.value))}  />
 
               </div>
 
-              <Button variant="contained" className="py-5" color="inherit" onClick={(e)=>setTrigger(!trigger)}>Classify The Points</Button>
-              <div className="mt-2 mb-5">
+              <Button variant="contained" className="py-5 mt-2" color="inherit" onClick={(e)=>setTrigger(!trigger)}>Classify The Points</Button>
+              <div className="mt-5 mb-5">
                 <Button variant="contained" className="py-5 PX-2" color="inherit" onClick={(e)=>setClearTrigger(!clearTrigger)}>Clear The Graph</Button>
               </div>
 
-              <Link model={"DBSCAN"} onExplainClick={setexplain}/>
+              <Link model={"SOM"} onExplainClick={setexplain}/>
             </>
         )}
 
       </div>
-      <div className={`${explain?'basis-[60%]':'basis-[77.5%]'} bg-[#FAFAFA] flex flex-col p-5 px-9 items-center overflow-y-auto h-[87vh]`}>
+      <div className={`${explain?'basis-[60%]':'basis-[77.5%]'} bg-[#FAFAFA] flex flex-col p-5 md:px-9 px-4 items-center overflow-y-auto h-[87vh]`}>
       
-        <div className="w-[80%] mt-1 flex flex-col items-center bg-white border-1 border-[#E9EAEB] rounded-lg p-4">
+        <div className="md:w-[80%] w-[100%] mt-1 flex flex-col items-center bg-white border-1 border-[#E9EAEB] rounded-lg md:p-4 p-2">
           {/* for the info above the play button. 1st list is for 1st row and 2nd list is for 2nd row*/}
           <AttributeList AttributeInfo={
-            [[{ label: "Max Iteration", value: iterations.toString(), num: 2, basis: 'basis-[40%]', description: 'test' },
-              { label: "Learning Rate", value: learningRate.toString(), num: 2, basis: 'basis-[40%]', description: 'test' }
+            [[{ label: "Max Iteration", value: iterations.toString(), num: 2, basis: 'basis-[40%]', description: 'Number of training steps; more iterations allow better convergence but may increase training time without significant gains after a point.' },
+              { label: "Learning Rate", value: learningRate.toString(), num: 2, basis: 'basis-[40%]', description: 'Controls how much the weights update during training; high values lead to faster learning but may cause instability, while low values converge slowly.' }
             ],
-            [{ label: "SOM Width", value: somWidth.toString(), num: 4, basis: 'basis-[20%]', description: 'test' },
-            { label: "SOM Height", value: somHeight.toString(), num: 4, basis: 'basis-[20%]', description: 'test' },
-            { label: "Silhouette Score", value: silhouette.toString(), num: 4, basis: 'basis-[20%]', description: 'test' },
+            [{ label: "SOM Width", value: somWidth.toString(), num: 4, basis: 'basis-[20%]', description: 'Defines the horizontal size of the grid; together with height, controls the resolution of the map and separation between data regions.' },
+            { label: "SOM Height", value: somHeight.toString(), num: 4, basis: 'basis-[20%]', description: 'Defines the vertical size of the grid; affects how finely the data is mapped and how many nodes are available for clustering.' },
+            { label: "Silhouette Score", value: silhouette.toString(), num: 4, basis: 'basis-[20%]', description: 'Measures how well-separated the mapped clusters are; can help assess the quality of the SOM’s representation but may be affected by topology.' },
             ]]
           }
           />

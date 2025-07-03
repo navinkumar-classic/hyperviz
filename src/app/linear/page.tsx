@@ -30,43 +30,43 @@ export default function KNN() {
 
   return (
     <div className="flex flex-grow md:flex-row flex-col">
-      <div className={`bg-[#FFFFFF] basis-[22.5%] border-r-2 border-[#E9EAEB] flex flex-col items-center ${explain?'basis-[40%]':'basis-[22.5%]'}`}>
+      <div className={`bg-[#FFFFFF] basis-[22.5%] md:border-r-2 border-b-2 border-[#E9EAEB] flex flex-col items-center ${explain?'basis-[40%]':'basis-[22.5%]'}`}>
         {explain? (
             <div className="grow overflow-y-auto bg-transparent bg-opacity-0">
-              <Explanation model={"DBSCAN"} onExplainClick={setexplain}/>
+              <Explanation model={"Linear"} onExplainClick={setexplain}/>
             </div>
         ):(
             <>
-              <LHS buttonsList={[btndm]} heading="Linear Regression" parameters={["Type of Regression"]} description={['test']} />
+              <LHS buttonsList={[btndm]} heading="Linear Regression" parameters={["Type of Regression"]} description={['Linear regression fits a straight line, polynomial regression captures curves with higher-degree terms, and ridge regression adds regularization to linear models to prevent overfitting.']} />
 
               <TextField id="filled-basic"
-                         label={<CustomLabel label={"λ parameter for Ridge Regression"} definition={'controls the strength of the L2 regularization applied to the model'} />} variant="standard" className="w-[80%]" value={lambda}
+                         label={<CustomLabel label={"λ parameter for Ridge Regression"} definition={'Controls regularization strength; higher values shrink coefficients to reduce overfitting, but may underfit if too strong.'} />} variant="standard" className="w-[80%]" value={lambda}
                          onChange={(e) => setLambda(Number(e.target.value))} type="number" inputProps={{ step: "any" }} />
 
-              <div className="mt-3">
+              <div className="mt-5">
                 <Button variant="contained" className="py-5" color="inherit" onClick={(e)=>setClearTrigger(!clearTrigger)}>Clear The Graph</Button>
               </div>
 
-              <Link model={"DBSCAN"} onExplainClick={setexplain}/>
+              <Link model={"Linear"} onExplainClick={setexplain}/>
             </>
         )}
 
       </div>
-      <div className={`${explain?'basis-[60%]':'basis-[77.5%]'} bg-[#FAFAFA] flex flex-col p-5 px-9 items-center overflow-y-auto h-[87vh]`}>
+      <div className={`${explain?'basis-[60%]':'basis-[77.5%]'} bg-[#FAFAFA] flex flex-col p-5 md:px-9 px-4 items-center overflow-y-auto h-[87vh]`}>
       
-        <div className="w-[80%] mt-1 flex flex-col items-center bg-white border-1 border-[#E9EAEB] rounded-lg p-4">
+        <div className="md:w-[80%] w-[100%] mt-1 flex flex-col items-center bg-white border-1 border-[#E9EAEB] rounded-lg md:p-4 p-2">
           {/* for the info above the play button. 1st list is for 1st row and 2nd list is for 2nd row*/}
           <AttributeList AttributeInfo={
-            [[{ label: "Type of Regression", value: regularisation, num: 2, basis: 'basis-[40%]', description: 'test' }],
-            [{ label: "R² Score", value: r2.toString(), num: 3, basis: 'basis-[30%]', description: 'test' },
-            { label: "RMSE", value: rmse.toString(), num: 3, basis: 'basis-[30%]', description: 'test' },
-            { label: "MAE", value: mae.toString(), num: 3, basis: 'basis-[30%]', description: 'test' }]]
+            [[{ label: "Type of Regression", value: regularisation, num: 2, basis: 'basis-[40%]', description: 'Linear regression fits a straight line, polynomial regression captures curves with higher-degree terms, and ridge regression adds regularization to linear models to prevent overfitting.' }],
+            [{ label: "R² Score", value: r2.toString(), num: 3, basis: 'basis-[30%]', description: 'Indicates how much variance in the target is explained by the model; values closer to 1 mean better fit.' },
+            { label: "RMSE", value: rmse.toString(), num: 3, basis: 'basis-[30%]', description: 'Root Mean Squared Error penalizes larger errors more than MAE; useful when large deviations are especially undesirable.' },
+            { label: "MAE", value: mae.toString(), num: 3, basis: 'basis-[30%]', description: 'Mean Absolute Error measures average absolute difference between predictions and actual values; easier to interpret, but less sensitive to large errors.' }]]
           }
           />
 
 
         </div>
-        <h1 className="mt-2 italic">Simulate line fitting in linear regression by placing points anywhere on the graph</h1>
+        <h1 className="mt-2 italic text-center">Simulate line fitting in linear regression by placing points anywhere on the graph</h1>
         <div className="flex md:flex-row flex-col w-full mt-3 justify-between">
 
           <LinearRegression r2func={setR2} rmsefunc = {setRmse} maefunc = {setMae} clearTrigger = {clearTrigger} reg = {regularisation} lambda = {lambda} 
