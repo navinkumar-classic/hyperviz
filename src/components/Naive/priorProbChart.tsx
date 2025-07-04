@@ -11,12 +11,16 @@ export default function PriorBarChart({ priors }: PriorBarChartProps) {
   return (
     <div className="flex flex-col items-center">
       <h3 className="text-2xl font-bold mb-2 italic">Prior Probabilities</h3>
-      <BarChart
-        xAxis={[{ scaleType: "band", data: classLabels }]}
-        series={[{ data: values}]}
-        height={300}
-        width={700}
-      />
+        <div className="w-full md:aspect-[7/3] aspect-[5/4]">
+            <BarChart
+                xAxis={[{ scaleType: "band", data: classLabels }]}
+                series={[{ data: values }]}
+                width={undefined}  // Let it stretch
+                height={undefined} // Let it stretch
+                // optional: if needed
+                sx={{ width: "100%", height: "100%" }}
+            />
+        </div>
     </div>
   );
 }

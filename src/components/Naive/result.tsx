@@ -19,7 +19,7 @@ const PredictionResultDisplay: React.FC<Props> = ({ result, input }) => {
   const features = Object.keys(featureProbabilities);
 
   return (
-    <div className="w-full flex flex-col gap-10 mt-6">
+    <div className="w-full flex flex-col gap-10 mt-6 md:text-lg text-sm">
 
       <div className='text-xl font-semibold'>
         <span className='italic'>Predicted Class -</span> {result.predictedClass.toUpperCase()}

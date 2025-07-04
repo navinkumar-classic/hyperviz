@@ -36,7 +36,10 @@ const blackOps = Black_Ops_One({
 
 export const metadata: Metadata = {
   title: "HyperViz",
-  description: "Machine Learning Project"
+  description: "Machine Learning Project",
+  icons: {
+    icon: '/favicon.svg', // path is relative to /public
+  },
 };
 
 export default function RootLayout({

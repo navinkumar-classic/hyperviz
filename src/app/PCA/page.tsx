@@ -29,14 +29,7 @@ export default function KNN() {
     [11, 7, 6],
   ]);
   const [value, setValue] = useState<Boolean>(true);
-  const [core, setCore] = useState<number>(0);
-  const [boundary, setBoundary] = useState<number>(0);
-  const [silhouette, setSilhouette] = useState<number>(0);
-  const [outlier, setOutlier] = useState<number>(0);
-  const [eps, setEps] = useState<number>(1);
-  const [K, setK] = useState<number>(3);
-  const [clearTrigger, setClearTrigger] = useState<Boolean>(true);
-  const [explain,setexplain]=useState(false);
+  const [explain,setexplain]=useState<Boolean>(false);
 
   const [x, setX] = useState<number>(1);
   const [y, setY] = useState<number>(1);
@@ -114,7 +107,9 @@ export default function KNN() {
         <h1 className="mt-2 italic">Click Anywhere To Place Points</h1>
         <div className="flex md:flex-row flex-col w-full mt-3 justify-between">
 
-          <OriginalPlot datapoints={data} setEighen={setEigenvectors}/>
+          {data.length >= 3 && (
+              <OriginalPlot datapoints={data} setEighen={setEigenvectors} />
+          )}
 
 
         </div>

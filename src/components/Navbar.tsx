@@ -23,7 +23,7 @@ export default function Navbar() {
     <nav className="text-black md:pr-9 pr-3 md:pl-9 pl-3 md:py-6 py-4 border-b-2 border-b-[#D5D7DA]">
       <div className="container mx-auto flex text-xl justify-between items-center">
         {/* Logo */}
-        <Link href="/" className="text-2xl font-bold flex items-center justify-center">
+        <Link href="/public" className="text-2xl font-bold flex items-center justify-center">
           <Image src={"/graph.svg"} width={50} height={50} alt="logo" />
           <div className="mx-3 font-blackOps font-light md:flex hidden">HyperViz</div>
         </Link>
@@ -45,15 +45,16 @@ export default function Navbar() {
               <MenuItem value="DBSCAN">DBSCAN</MenuItem>
               <MenuItem value="SOM">SOM</MenuItem>
               <MenuItem value="Qlearning">Reinforcement Learning</MenuItem>
+              <MenuItem value="PCA">PCA</MenuItem>
+              <MenuItem value="NaiveBayes">Naive Bayes</MenuItem>
               {/*
-                <MenuItem value="PCA">PCA</MenuItem>
-                <MenuItem value="NaiveBayes">Naive Bayes</MenuItem>
+
                */}
 
             </Select>
           </FormControl>
 
-          <IconButton onClick={() => console.log("hi")} color="default" sx={{ color: "black", ml: 0.5 }}>
+          <IconButton onClick={() => window.open("https://github.com/navinkumar-classic/hyperviz", "_blank")} color="default" sx={{ color: "black", ml: 0.5 }}>
             <GitHub fontSize="large" />
           </IconButton>
         </div>

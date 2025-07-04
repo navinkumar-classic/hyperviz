@@ -25,15 +25,20 @@ export default function ProbChart({ probTable }: ProbChartProps) {
                 }));
 
                 return (
-                    <div key={feature}>
+                    <div key={feature} className={'w-full'}>
                         <h3 className="text-xl font-semibold mb-2 italic">Feature - {feature[0].toUpperCase() + feature.slice(1,)}</h3>
-                        <BarChart
-                            xAxis={[{ scaleType: 'band', data: xAxisValues }]}
-                            yAxis={[{ min: 0, max: 1 }]}
-                            series={series}
-                            height={300}
-                            width={800}
-                        />
+                        <div className="w-full md:aspect-[7/3] aspect-[5/4]">
+                            <BarChart
+                                xAxis={[{ scaleType: 'band', data: xAxisValues }]}
+                                yAxis={[{ min: 0, max: 1 }]}
+                                series={series}
+                                width={undefined}  // Let it stretch
+                                height={undefined} // Let it stretch
+                                // optional: if needed
+                                sx={{ width: "100%", height: "100%" }}
+                            />
+                        </div>
+
                     </div>
                 );
             })}

@@ -249,21 +249,27 @@ export default function Home({datapoints, setEighen}: Hmm) {
   };
 
   return (
-    <div style={{ gap: "2rem" }} className="justify-center px-5 flex md:flex-row flex-col">
-      <div className="border-2 border-[#E9EAEB] rounded flex flex-col items-center">
+    <div style={{ gap: "2rem" }} className="justify-center px-5 flex md:flex-row flex-col w-full">
+      <div className="border-2 border-[#E9EAEB] rounded flex flex-col items-center grow">
         <h2 className="mb-2 text-xl font-semibold italic underline py-3">Original Data</h2>
-        <Canvas camera={{ position: [12, 12, 12], fov: 50 }} style={{ width: "500px", height: "400px" }}>
-          <OrbitControls />
-          <OriginalPlot points={data} onAddPoint={addPoint} />
-        </Canvas>
+        <div className="w-full aspect-[5/4]">
+          <Canvas camera={{ position: [12, 12, 12], fov: 50 }}>
+            <OrbitControls />
+            <OriginalPlot points={data} onAddPoint={addPoint} />
+          </Canvas>
+        </div>
+
       </div>
 
-      <div className="border-2 border-[#E9EAEB] rounded flex flex-col items-center ">
+      <div className="border-2 border-[#E9EAEB] rounded flex flex-col items-center grow">
         <h2 className="mb-2 text-xl font-semibold italic underline py-3">PCA Transformed</h2>
-        <Canvas camera={{ position: [5, 5, 5], fov: 50 }} style={{ width: "500px", height: "400px" }}>
-          <OrbitControls />
-          <PCAPlot points={data} onSetEigenvectors={setEigenvectors} />
-        </Canvas>
+        <div className="w-full aspect-[5/4]">
+          <Canvas camera={{ position: [5, 5, 5], fov: 50 }}>
+            <OrbitControls />
+            <PCAPlot points={data} onSetEigenvectors={setEigenvectors} />
+          </Canvas>
+        </div>
+
 
         {/* Display eigenvectors below the PCA plot 
         <div style={{ marginTop: "1rem" }}>

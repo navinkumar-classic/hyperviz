@@ -6,7 +6,7 @@ import { Button, ButtonGroup, Box } from "@mui/material";
 import LHS from "@/components/LHS";
 import Link from "@/components/link"
 import AttributeList from "@/components/AttributeList";
-import ProbabilityTable from "@/components/NaiveTable";
+import ProbabilityTable from "@/components/Naive/NaiveTable";
 import TextField from '@mui/material/TextField';
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 import { styled } from '@mui/material/styles';
@@ -240,10 +240,10 @@ export default function KNN() {
               </Button>
 
               {features && input && (
-                  <div className="w-[100%] mt-3 flex flex-col items-center">
+                  <div className="w-[100%] mt-5 mb-4 flex flex-col items-center">
                     {
                       features?.map((value,index) => (
-                          <div id={`f-${value}`} key={`feature-${index}`}className="mb-4">
+                          <div id={`f-${value}`} key={`feature-${index}`}className="mb-4 w-[80%]">
                             <TextField id={`f-${value}`} label={value[0].toUpperCase()+value.slice(1,)} variant="filled" className="w-full mb-5"
                                        value = {input[index]} onChange={(e)=>{handleInputModel(e,index)}}/>
                           </div>
@@ -256,7 +256,6 @@ export default function KNN() {
                         variant="contained"
                         tabIndex={-1}
                         onClick = {(e)=>calculateResult()}
-                        className="mx-auto"
                     >
                       Classify
                     </Button>
@@ -267,7 +266,7 @@ export default function KNN() {
         )}
 
       </div>
-      <div className={`${explain?'basis-[60%]':'basis-[77.5%]'} bg-[#FAFAFA] flex flex-col p-5 px-9 items-center overflow-y-auto h-[87vh]`}>
+      <div className={`${explain?'basis-[60%]':'basis-[77.5%]'} bg-[#FAFAFA] flex flex-col p-5 md:px-9 px-4 items-center overflow-y-auto h-[87vh]`}>
 
         {
           priors && probabilities && (
@@ -277,11 +276,15 @@ export default function KNN() {
 
         {
           priors && probabilities && result && input && (
-            <div className="w-[80%] mt-1 flex flex-col items-center bg-white border-1 border-[#E9EAEB] rounded-lg p-4">
+            <div className="md:w-[80%] w-[100%] mt-1 flex flex-col items-center bg-white border-1 border-[#E9EAEB] rounded-lg md:p-4 p-2">
 
               <h1 className="text-2xl font-bold mb-2 italic center">Prediction Result</h1>
 
-              <PredictionResultDisplay result={result} input={input} />
+              <div className="w-full overflow-x-auto">
+                <div className="min-w-[600px]"> {/* Optional: tweak min width */}
+                  <PredictionResultDisplay result={result} input={input} />
+                </div>
+              </div>
 
             </div>
           )
