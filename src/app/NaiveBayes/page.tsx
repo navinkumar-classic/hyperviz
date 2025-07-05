@@ -13,7 +13,7 @@ import { styled } from '@mui/material/styles';
 import Papa from 'papaparse';
 import { predictNaiveBayesClass } from "@/components/Naive/makePrediction";
 import PredictionResultDisplay from "@/components/Naive/result";
-
+import Explanation from "@/components/Explanation";
 
 export default function KNN() {
   const [value, setValue] = useState<number>(1);
@@ -25,6 +25,7 @@ export default function KNN() {
   const [features, setFeatures] = useState<string[]|null>(null)
   const [input, setInput] = useState<string[]|null>(null)
   const [result, setResult] = useState<any>(null)
+  const [expl_naive,setexpl_naive]=useState(false)
 
   const btndm = [
     { name: "None", func: () => setLaplaceSmoothing("None") },
@@ -204,8 +205,13 @@ export default function KNN() {
 
   return (
     <div className="flex flex-grow md:flex-row flex-col">
-      <div className="bg-[#FFFFFF] basis-[22.5%] border-r-2 border-[#E9EAEB] flex flex-col items-center overflow-y-auto h-[87vh]">
-
+      <div className={`bg-[#FFFFFF] h-[87vh] border-r-2 border-[#E9EAEB] flex flex-col items-center  ${expl_naive?'basis-[40%]':'basis-[22.5%]'}`}>
+        {expl_naive? (
+          <div className="grow overflow-y-auto bg-transparent bg-opacity-0">
+              <Explanation model={"Naive Bayes"} onExplainClick={setexpl_naive}/>
+              </div>
+        ):(
+          <>
         <LHS buttonsList={[btndm]} heading="Naive Bayes Classifier" parameters={["Laplace Smoothing"]} />
 
         <div className="mb-5 w-[80%]">
@@ -255,8 +261,9 @@ export default function KNN() {
           </div>
         )}
 
-        <Link />
-
+        <Link model={"Naive"} onExplainClick={setexpl_naive}/>
+        </>
+        )}
       </div>
       <div className="basis-[77.5%] bg-[#FAFAFA] flex flex-col p-5 px-9 items-center overflow-y-auto h-[87vh]">
 

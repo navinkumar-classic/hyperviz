@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Montserrat, IBM_Plex_Mono, Scope_One, Inter, Black_Ops_One } from "next/font/google";
+import { Montserrat, IBM_Plex_Mono, Scope_One, Inter} from "next/font/google";
 import Navbar from "@/components/Navbar";
 import "./globals.css";
 
@@ -24,7 +24,7 @@ const plexMono = IBM_Plex_Mono({
   weight: "400"
 });
 
-const blackOps = Black_Ops_One({
+const blackOps = Inter({
   variable: "--font-blackOps",
   weight: "400"
 });

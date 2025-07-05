@@ -15,7 +15,7 @@ import AttributeList from "@/components/AttributeList";
 import { IconButton } from "@mui/material";
 import { PlayCircleFilled, PauseCircle, SkipNext, SkipPrevious } from "@mui/icons-material";
 import Papa from "papaparse";
-
+import Explanation from "@/components/Explanation";
 
 const imageInfo = { width: 420, height: 420, heading: "Decision Boundary", alt: "K Value" };
 interface CsvRow {
@@ -39,6 +39,7 @@ export default function KNN() {
   const [dataDict, setDataDict] = useState<DataDictionary>({});
   const [acc, setAcc] = useState<number[]>([]);
   const [arr, setArr] = useState<number[]>([]);
+  const [expl_nn,setexpl_nn]=useState(false)
 
   const btndm = [
     { name: "0.1", func: () => setLearningRate("0.1") },
@@ -139,12 +140,17 @@ export default function KNN() {
 
   return (
     <div className="flex flex-grow md:flex-row flex-col">
-      <div className="bg-[#FFFFFF] basis-[22.5%] border-r-2 border-[#E9EAEB] flex flex-col items-center">
-
+      <div className={`bg-[#FFFFFF] h-[87vh] border-r-2 border-[#E9EAEB] flex flex-col items-center  ${expl_nn?'basis-[40%]':'basis-[22.5%]'}`}>
+        {expl_nn?(
+          <div className="grow overflow-y-auto bg-transparent bg-opacity-0">
+              <Explanation model={"Multi Layer Perceptron"} onExplainClick={setexpl_nn}/>
+              </div>
+        ):(
+          <>
         <LHS buttonsList={[btndm, btnwf, btnhd]} heading="Neural Network" parameters={["Learning Rate", "Activation Function", "Hidden Layer"]} />
-
-        <Link />
-
+        <Link model={"NN"} onExplainClick={setexpl_nn}/>
+        </>
+        )}
       </div>
       <div className="basis-[77.5%] bg-[#FAFAFA] flex flex-col p-5 px-9 items-center overflow-y-auto h-[87vh]">
       

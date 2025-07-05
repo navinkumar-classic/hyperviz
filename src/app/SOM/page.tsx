@@ -9,7 +9,7 @@ import AttributeList from "@/components/AttributeList";
 import SOM from "@/components/SOM"
 import TextField from '@mui/material/TextField';
 import { clear } from "console";
-
+import Explanation from "@/components/Explanation";
 
 export default function KNN() {
   const [value, setValue] = useState<Boolean>(true);
@@ -27,12 +27,18 @@ export default function KNN() {
   const [somWidth, setSomWidth] = useState(2);
   const [somHeight, setSomHeight] = useState(3);
   const [useKMeans, setUseKMeans] = useState(false); // NEW
+  const [expl_som,setexpl_som]=useState<Boolean>(false)
   
 
   return (
     <div className="flex flex-grow md:flex-row flex-col">
-      <div className="bg-[#FFFFFF] basis-[22.5%] border-r-2 border-[#E9EAEB] flex flex-col items-center overflow-y-auto h-[87vh]">
-
+      <div className={`bg-[#FFFFFF] h-[87vh] border-r-2 border-[#E9EAEB] flex flex-col items-center  ${expl_som?'basis-[40%]':'basis-[22.5%]'}`}>
+        {expl_som?(
+          <div className="grow overflow-y-auto bg-transparent bg-opacity-0">
+              <Explanation model={"SOM"} onExplainClick={setexpl_som}/>
+              </div>
+        ):(
+          <>
         <div className="w-[80%] rounded-tr-2xl rounded-bl-2xl bg-white my-4 py-4 flex flex-col items-center text-black px-4 border-t-3 border-t-[#E9EAEB] border-b-3 border-b-[#E9EAEB]">
           <div className="text-xl font-semibold text-center mb-2 pl-2">SOM</div>
           <div className="text-md font-light italic text-center pb-2">Choose Your HyperParameter</div>
@@ -71,7 +77,9 @@ export default function KNN() {
           <Button variant="contained" className="py-5 PX-2" color="inherit" onClick={(e)=>setClearTrigger(!clearTrigger)}>Clear The Graph</Button>  
         </div>
 
-        <Link model={"SOM"}/>
+        <Link model={"SOM"} onExplainClick={setexpl_som}/>
+        </>
+        )}
 
       </div>
       <div className="basis-[77.5%] bg-[#FAFAFA] flex flex-col p-5 px-9 items-center overflow-y-auto h-[87vh]">

@@ -10,6 +10,7 @@ import Kmeans from '@/components/Kmeans'
 import TextField from '@mui/material/TextField';
 import BasicLineChart from "@/components/basicLineGraph";
 import { cluster_1, cluster_2 } from "@/components/data";
+import Explanation from "@/components/Explanation"
 
 const exam_1 = cluster_1
 const exam_2 = cluster_2
@@ -28,6 +29,7 @@ export default function KNN() {
   const [clearTrigger, setClearTrigger] = useState<Boolean>(true);
   const [points, setPoints] = useState<Point[]>([])
   const [exam, setExam] = useState<string>("")
+  const [expl_kmeans,setexpl_kmeans]=useState(false)
 
   const btndb = [
     { name: "None", func: () => setExam("") },
@@ -77,8 +79,13 @@ export default function KNN() {
 
   return (
     <div className="flex flex-grow md:flex-row flex-col">
-      <div className="bg-[#FFFFFF] basis-[22.5%] border-r-2 border-[#E9EAEB] flex flex-col items-center">
-
+      <div className={`bg-[#FFFFFF] h-[87vh] border-r-2 border-[#E9EAEB] flex flex-col items-center  ${expl_kmeans?'basis-[40%]':'basis-[22.5%]'}`}>
+        {expl_kmeans? (
+                    <div className="grow overflow-y-auto bg-transparent bg-opacity-0">
+                      <Explanation model={"KMeans"} onExplainClick={setexpl_kmeans}/>
+                      </div>
+                  ):(
+                    <>
         <LHS buttonsList={[btndb,btndm]} heading="K Means" parameters={["Dataset","Initialization"]} />
 
         <div className="mb-7 w-[80%]">
@@ -100,7 +107,9 @@ export default function KNN() {
           <Button variant="contained" className="py-5" color="inherit" onClick={(e) => setClearTrigger(!clearTrigger)}>Clear The Graph</Button>
         </div>
 
-        <Link />
+        <Link model={"KMeans"} onExplainClick={setexpl_kmeans}/>
+        </>
+        )}
 
       </div>
       <div className="basis-[77.5%] bg-[#FAFAFA] flex flex-col p-5 px-6 items-center overflow-y-auto h-[87vh]">

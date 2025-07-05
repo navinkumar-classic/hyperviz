@@ -1,4 +1,3 @@
-
 "use client";
 declare module 'd3-graphviz' {
   export const graphviz: any;
@@ -19,6 +18,7 @@ import { SetStateAction, useState } from "react";
 import * as d3 from "d3";
 import { graphviz } from "d3-graphviz";
 declare module 'd3-graphviz';
+import Explanation from "@/components/Explanation";
 
 export default function DecisionTreeForm() {
   const [maxDepth, setMaxDepth] = useState(3);
@@ -47,6 +47,7 @@ export default function DecisionTreeForm() {
   const [clearTrigger, setClearTrigger] = useState<Boolean>(true);
   const [points, setPoints] = useState<Point[]>([])
   const [exam, setExam] = useState<string>("")
+  const [expl_dt,setexpl_dt]=useState<Boolean>(false)
 
   const btndm = [
     { name: "None", func: () => setExam("") },
@@ -149,8 +150,13 @@ export default function DecisionTreeForm() {
 
 
     <div className="flex flex-grow md:flex-row flex-col">
-      <div className="bg-[#FFFFFF] basis-[22.5%] border-r-2 border-[#E9EAEB] flex flex-col items-center overflow-y-auto h-[87vh]">
-
+      <div className={`bg-[#FFFFFF] h-[87vh] border-r-2 border-[#E9EAEB] flex flex-col items-center  ${expl_dt?'basis-[40%]':'basis-[22.5%]'}`}>
+        {expl_dt?(
+          <div className="grow overflow-y-auto bg-transparent bg-opacity-0">
+              <Explanation model={"Decision Tree"} onExplainClick={setexpl_dt}/>
+              </div>
+        ):(
+          <>
       <div className="w-[80%] rounded-tr-2xl rounded-bl-2xl bg-white my-4 py-4 flex flex-col items-center text-black px-4 border-t-3 border-t-[#E9EAEB] border-b-3 border-b-[#E9EAEB]">
                 <div className="text-xl font-semibold text-center mb-2 pl-2">Decision Tree</div>
                 <div className="text-md font-light italic text-center pb-2">Choose Your HyperParameter</div>
@@ -272,7 +278,9 @@ export default function DecisionTreeForm() {
                 </button>
               </form>
 
-        <Link />
+        <Link model={"DecisionTree"} onExplainClick={setexpl_dt}/>
+        </>
+        )}
 
       </div>
       <div className="basis-[77.5%] bg-[#FAFAFA] flex flex-col p-5 px-9 items-center overflow-y-auto h-[87vh]">
