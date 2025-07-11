@@ -1,7 +1,5 @@
 "use client";
-declare module 'd3-graphviz' {
-  export const graphviz: any;
-}
+import { graphviz } from 'd3-graphviz';
 import Image from "next/image";
 import { useEffect } from "react";
 import { Button, ButtonGroup} from "@mui/material";
@@ -16,8 +14,6 @@ import { Box, InputLabel, FormControl, NativeSelect, Select, MenuItem } from '@m
 
 import { SetStateAction, useState } from "react";
 import * as d3 from "d3";
-import { graphviz } from "d3-graphviz";
-declare module 'd3-graphviz';
 import Explanation from "@/components/Explanation";
 
 export default function DecisionTreeForm() {
@@ -45,7 +41,6 @@ export default function DecisionTreeForm() {
   const [eps, setEps] = useState<number>(1);
   const [K, setK] = useState<number>(3);
   const [clearTrigger, setClearTrigger] = useState<Boolean>(true);
-  const [points, setPoints] = useState<Point[]>([])
   const [exam, setExam] = useState<string>("")
   const [expl_dt,setexpl_dt]=useState<Boolean>(false)
 
@@ -134,10 +129,13 @@ export default function DecisionTreeForm() {
 
       const prediction = await response.json();
       console.log("Received JSON:", prediction)
-      setResult((prevResult) => ({
+      setResult((prevResult) => {
+        if (!prevResult) return null;
+        return{
         ...prevResult,
         prediction: prediction.prediction,
-      }));
+        };
+      });
     } catch (error) {
       console.error("Error making the prediction:", error);
     }

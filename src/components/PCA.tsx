@@ -9,7 +9,7 @@ const { PCA } = require('ml-pca');
 
 type Point3D = [number, number, number];
 
-function Point({ position, color = "hotpink" }: { position: [number, number]; color?: string }) {
+function Point({ position, color = "hotpink" }: { position: [number, number,number]; color?: string }) {
   return (
     <mesh position={position}>
       <sphereGeometry args={[0.1, 16, 16]} />
@@ -47,9 +47,7 @@ function Axes({ size = 5 }: { size?: number }) {
         <bufferGeometry>
           <bufferAttribute
             attach="attributes-position"
-            count={2}
-            array={new Float32Array([-size, 0, 0, size, 0, 0])}
-            itemSize={3}
+            args={[new Float32Array([-size,0,0,size,0,0]),3]}
           />
         </bufferGeometry>
         <lineBasicMaterial color="red" />
@@ -60,9 +58,7 @@ function Axes({ size = 5 }: { size?: number }) {
         <bufferGeometry>
           <bufferAttribute
             attach="attributes-position"
-            count={2}
-            array={new Float32Array([0, -size, 0, 0, size, 0])}
-            itemSize={3}
+            args={[new Float32Array([0,-size,0,0,size,0]),3]}
           />
         </bufferGeometry>
         <lineBasicMaterial color="green" />
@@ -73,9 +69,7 @@ function Axes({ size = 5 }: { size?: number }) {
         <bufferGeometry>
           <bufferAttribute
             attach="attributes-position"
-            count={2}
-            array={new Float32Array([0, 0, -size, 0, 0, size])}
-            itemSize={3}
+            args={[new Float32Array([0,0,-size,0,0,size]),3]}
           />
         </bufferGeometry>
         <lineBasicMaterial color="blue" />
@@ -154,7 +148,7 @@ function OriginalPlot({
       {/* Eigenvectors as arrows */}
       {eigenvectors && eigenvectors.length > 0 &&
         eigenvectors.map((vec, idx) => (
-          <Arrow key={idx} start={[0, 0, 0]} end={vec} color="red" />
+          <Arrow key={idx} direction={vec} color="red" />
         ))}
     </>
   );
