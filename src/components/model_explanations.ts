@@ -44,11 +44,15 @@ export const som_json={
 }
 
 export const pca_json={
-    "expl":`Principal Component Analysis (PCA) is a powerful technique for dimensionality reduction that transforms data into a new coordinate system to capture the most variance.        It works by identifying **principal components**, which are orthogonal directions of maximum variance in the data, computed through **eigen decomposition** or **singular value decomposition (SVD)**.
+    "expl":`Principal Component Analysis (PCA) is a powerful technique for dimensionality reduction that transforms data into a new coordinate system to capture the most variance.        
+    
+    It works by identifying **principal components**, which are orthogonal directions of maximum variance in the data, computed through **eigen decomposition** or **singular value decomposition (SVD)**.
         
         Key concepts:   
         - **\`Principal Components\`** – new axes that capture decreasing amounts of variance in the data
+        
         - **\`Explained Variance\`** – indicates how much information each principal component retains
+
         By projecting data onto the top components, PCA reduces dimensionality while preserving structure.
 
 `
