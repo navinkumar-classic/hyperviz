@@ -127,7 +127,5 @@ export default function KNN() {
       </div>
 
     </div>
-  </div>
-  
   );
 }
