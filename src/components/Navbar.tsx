@@ -20,16 +20,15 @@ export default function Navbar() {
   };
 
   return (
-    <nav className="text-black pr-9 pl-9 py-6 border-b-2 border-b-[#D5D7DA] h-[13vh]">
-      <div className="container mx-auto flex text-xl justify-between items-center">
-        {/* Logo */}
-        <Link href="/" className="text-3xl font-bold flex items-center justify-center">
-          <Image src={"/graph.svg"} width={60} height={60} alt="logo" />
-          <div className="mx-4 font-blackOps font-light">HyperViz</div>
+    <nav className="text-black px-4 sm:px-6 lg:px-9 py-4 sm:py-6 border-b-2 border-b-[#D5D7DA] h-auto sm:h-[13vh]">
+      <div className="container mx-auto flex flex-col sm:flex-row text-lg sm:text-xl justify-between items-center gap-4 sm:gap-0">
+        <Link href="/" className="text-2xl sm:text-3xl font-bold flex items-center justify-center">
+          <Image src={"/graph.svg"} width={40} height={40} className="sm:w-[60px] sm:h-[60px]" alt="logo" />
+          <div className="mx-2 sm:mx-4 font-blackOps font-light">HyperViz</div>
         </Link>
 
-        <div>
-          <FormControl variant="filled" sx={{ minWidth: 500 }}>
+        <div className="flex flex-col sm:flex-row items-center gap-3 sm:gap-0 w-full sm:w-auto">
+          <FormControl variant="filled" sx={{ minWidth: 280, width: '100%', maxWidth: 500 }}>
             <InputLabel id="model-select-label">Choose a Model</InputLabel>
             <Select
               labelId="model-select-label"
@@ -53,8 +52,8 @@ export default function Navbar() {
             </Select>
           </FormControl>
 
-          <IconButton onClick={() => console.log("hi")} color="default" sx={{ color: "black", ml: 4 }}>
-            <GitHub fontSize="large" />
+          <IconButton onClick={() => console.log("hi")} color="default" sx={{ color: "black", ml: { xs: 0, sm: 4 } }}>
+            <GitHub fontSize="medium" className="sm:text-4xl" />
           </IconButton>
         </div>
       </div>

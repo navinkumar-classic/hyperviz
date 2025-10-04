@@ -269,7 +269,7 @@ export default function DBSCAN({ core, boundary, silh, outlier, eps, k, flag, cl
       width={CANVAS_WIDTH}
       height={CANVAS_HEIGHT}
       onClick={handleClick}
-      style={{ border: '2px solid #E9EAEB', cursor: 'crosshair' }}
+      style={{ border: '2px solid #E9EAEB', cursor: 'crosshair', maxWidth: '100%', height: 'auto' }}
       className='m-auto bg-white mt-2 rounded-sm'
     />
   );

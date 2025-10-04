@@ -53,33 +53,35 @@ export default function KNN() {
   
   console.log(expl_dbscan)
   return (
-    <div className="flex flex-grow md:flex-row flex-col">
-      <div className={`bg-[#FFFFFF] h-[87vh] border-r-2 border-[#E9EAEB] flex flex-col items-center  ${expl_dbscan?'basis-[40%]':'basis-[22.5%]'}`}>
+    <div className="flex flex-grow flex-col lg:flex-row">
+      <div className={`bg-[#FFFFFF] h-auto lg:h-[87vh] border-r-0 lg:border-r-2 border-b-2 lg:border-b-0 border-[#E9EAEB] flex flex-col items-center ${expl_dbscan?'lg:basis-[40%]':'lg:basis-[22.5%]'} w-full lg:w-auto`}>
           {expl_dbscan? (
-            <div className="grow overflow-y-auto bg-transparent bg-opacity-0">
+            <div className="grow overflow-y-auto bg-transparent bg-opacity-0 w-full">
               <Explanation model={"DBSCAN"} onExplainClick={setexpl_dbscan}/>
               </div>
           ):(
             <>
               <LHS buttonsList={[btndm]} heading="DBSCAN" parameters={["Example Dataset"]} />
 
-              <div className="mb-5 w-[80%]">
+              <div className="mb-4 sm:mb-5 w-full max-w-sm px-2">
 
                 <TextField id="filled-K" label="ε (Epsilon)" type="number" inputProps={{ step: "0.2" }} variant="standard" className="w-full" value={eps}
                 onChange={(e) => setEps(Number(e.target.value))}  />
 
               </div>
 
-              <div className="mb-7 w-[80%]">
+              <div className="mb-4 sm:mb-7 w-full max-w-sm px-2">
 
                 <TextField id="filled-basic" label="K (Number of Neighbour)" type="number" variant="standard" className="w-full" value={K}
                 onChange={(e) => setK(Number(e.target.value))}  />
 
               </div>
 
-              <Button variant="contained" className="py-5" color="inherit" onClick={(e)=>setValue(!value)}>Classify The Points</Button>
-              <div className="mt-2">
-                <Button variant="contained" className="py-5" color="inherit" onClick={(e)=>setClearTrigger(!clearTrigger)}>Clear The Graph</Button>
+              <div className="w-full max-w-sm px-2 mb-3">
+                <Button variant="contained" className="py-3 sm:py-5 w-full text-sm sm:text-base" color="inherit" onClick={(e)=>setValue(!value)}>Classify The Points</Button>
+              </div>
+              <div className="w-full max-w-sm px-2 mb-3">
+                <Button variant="contained" className="py-3 sm:py-5 w-full text-sm sm:text-base" color="inherit" onClick={(e)=>setClearTrigger(!clearTrigger)}>Clear The Graph</Button>
               </div>
 
               <Link model={"DBSCAN"} onExplainClick={setexpl_dbscan}/>
@@ -87,10 +89,9 @@ export default function KNN() {
       )}
 
       </div>
-      <div className={`${expl_dbscan?'basis-[60%]':'basis-[77.5%]'} bg-[#FAFAFA] flex flex-col p-5 px-9 items-center overflow-y-auto h-[87vh]`}>
+      <div className={`${expl_dbscan?'lg:basis-[60%]':'lg:basis-[77.5%]'} bg-[#FAFAFA] flex flex-col p-3 sm:p-5 lg:px-9 items-center overflow-y-auto h-auto lg:h-[87vh] w-full`}>
       
-        <div className="w-[100%] mt-1 flex flex-col items-center bg-white border-1 border-[#E9EAEB] rounded-lg p-4">
-          {/* for the info above the play button. 1st list is for 1st row and 2nd list is for 2nd row*/}
+        <div className="w-full max-w-4xl mt-1 flex flex-col items-center bg-white border-1 border-[#E9EAEB] rounded-lg p-3 sm:p-4">
           <AttributeList AttributeInfo={
             [[{ label: "K- Number of Neighbour", value: K.toString(), num: 3, basis: 'basis-[40%]' },
               { label: "ε- Max distance between 2 neighbouring pts", value: eps.toString(), num: 3, basis: 'basis-[40%]' }
@@ -102,30 +103,26 @@ export default function KNN() {
             ]]
           }
           />
-
-
         </div>
-        <center><h1 className="mt-2 italic">Click anywhere on the graph to place the points.
-        </h1></center>
-        <center><h1 className="mt-2 italic">The different colours represent the 
-          clusters whereas the grey points represent the outliers.
-        </h1></center>
-        <div className="flex md:flex-row flex-col w-full h-full mt-3 justify-between">
-          <DBSCAN
-            core={setCore}
-            boundary={setBoundary}
-            outlier={setOutlier}
-            silh={setSilhouette}
-            clearTrigger={clearTrigger}
-            eps={eps}
-            k={K}
-            flag={value}
-            pointex={points}
-          />
-          
-
-
-    
+        <div className="text-center px-4">
+          <h1 className="mt-2 sm:mt-3 italic text-sm sm:text-base">Click anywhere on the graph to place the points.</h1>
+          <h1 className="mt-1 sm:mt-2 italic text-sm sm:text-base">The different colours represent the clusters whereas the grey points represent the outliers.</h1>
+        </div>
+        <div className="flex flex-col lg:flex-row w-full h-full mt-3 gap-4 lg:gap-0 lg:justify-between">
+          <div className="w-full lg:w-auto">
+            <DBSCAN
+              core={setCore}
+              boundary={setBoundary}
+              outlier={setOutlier}
+              silh={setSilhouette}
+              clearTrigger={clearTrigger}
+              eps={eps}
+              k={K}
+              flag={value}
+              pointex={points}
+            />
+          </div>
+        </div>
 
       </div>
 

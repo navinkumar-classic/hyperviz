@@ -346,7 +346,7 @@ export default function LinearRegression({ r2func, maefunc, rmsefunc, reg, lambd
       width={CANVAS_WIDTH}
       height={CANVAS_HEIGHT}
       onClick={handleClick}
-      style={{ border: '2px solid #E9EAEB', cursor: 'crosshair' }}
+      style={{ border: '2px solid #E9EAEB', cursor: 'crosshair', maxWidth: '100%', height: 'auto' }}
       className='m-auto bg-white mt-2 rounded-sm'
     />
   );

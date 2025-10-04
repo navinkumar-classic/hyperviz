@@ -139,25 +139,20 @@ export default function KNN() {
   }
 
   return (
-    <div className="flex flex-grow md:flex-row flex-col">
-      <div className={`bg-[#FFFFFF] h-[87vh] border-r-2 border-[#E9EAEB] flex flex-col items-center  ${expl_knn?'basis-[40%]':'basis-[22.5%]'}`}>
+    <div className="flex flex-grow flex-col lg:flex-row">
+      <div className={`bg-[#FFFFFF] h-auto lg:h-[87vh] border-r-0 lg:border-r-2 border-b-2 lg:border-b-0 border-[#E9EAEB] flex flex-col items-center ${expl_knn?'lg:basis-[40%]':'lg:basis-[22.5%]'} w-full lg:w-auto`}>
         {expl_knn? (
-          <div className="grow overflow-y-auto bg-transparent bg-opacity-0">
+          <div className="grow overflow-y-auto bg-transparent bg-opacity-0 w-full">
               <Explanation model={"KNN"} onExplainClick={setexpl_knn}/>
           </div>):(
             <>
-
         <LHS buttonsList={[btndm, btnwf, btndb]} heading="K-Nearest Neighbour" parameters={["Distance Metric", "Weighting Function", "Dataset"]} />
-
         <Link model={"KNN"} onExplainClick={setexpl_knn}/>
         </>
         )}
-
       </div>
-      <div className="basis-[77.5%] bg-[#FAFAFA] flex flex-col p-5 px-9 items-center overflow-y-auto h-[87vh]">
-      
-        <div className="w-[80%] mt-1 flex flex-col items-center bg-white border-1 border-[#E9EAEB] rounded-lg p-4">
-          {/* for the info above the play button. 1st list is for 1st row and 2nd list is for 2nd row*/}
+      <div className="lg:basis-[77.5%] bg-[#FAFAFA] flex flex-col p-3 sm:p-5 lg:px-9 items-center overflow-y-auto h-auto lg:h-[87vh] w-full">
+        <div className="w-full max-w-4xl mt-1 flex flex-col items-center bg-white border-1 border-[#E9EAEB] rounded-lg p-3 sm:p-4">
           <AttributeList AttributeInfo={
             [[{ label: "Distance Metric", value: distanceMetric, num: 2, basis: 'basis-[40%]' },
             { label: "Weigthing Function", value: weigtingFunction, num: 2, basis: 'basis-[40%]' }],
@@ -167,44 +162,41 @@ export default function KNN() {
           }
           />
 
-          <Slider
-            value={value}
-            onChange={(_, newValue) => setValue(newValue as number)}
-            aria-label="Default"
-            valueLabelDisplay="auto"
-            min={LOW}
-            max={HIGH}
-          />
+          <div className="w-full max-w-md my-4">
+            <Slider
+              value={value}
+              onChange={(_, newValue) => setValue(newValue as number)}
+              aria-label="Default"
+              valueLabelDisplay="auto"
+              min={LOW}
+              max={HIGH}
+            />
+          </div>
 
-          <div className="flex">
-
+          <div className="flex gap-2">
             <IconButton onClick={() => skipPrevious()} color="primary">
-              <SkipPrevious sx={{ fontSize: 50 }} />
+              <SkipPrevious sx={{ fontSize: { xs: 40, sm: 50 } }} />
             </IconButton>
 
             <IconButton onClick={() => setIsPlaying(!isPlaying)} color="primary">
-              {isPlaying ? <PauseCircle sx={{ fontSize: 50 }} /> : <PlayCircleFilled sx={{ fontSize: 50 }} />}
+              {isPlaying ? <PauseCircle sx={{ fontSize: { xs: 40, sm: 50 } }} /> : <PlayCircleFilled sx={{ fontSize: { xs: 40, sm: 50 } }} />}
             </IconButton>
 
             <IconButton onClick={() => skipNext()} color="primary">
-              <SkipNext sx={{ fontSize: 50 }} />
+              <SkipNext sx={{ fontSize: { xs: 40, sm: 50 } }} />
             </IconButton>
-
           </div>
-
-
         </div>
 
-        <div className="flex md:flex-row flex-col w-full mt-3 justify-between">
-
-          <ImageDisplay image={imageInfo} source={imageCache[value]} />
-
-          <BasicLineChart x={arr} y={acc} mark={value} label = {'Error Graph'} />
-
+        <div className="flex flex-col lg:flex-row w-full mt-3 gap-4 lg:gap-0 lg:justify-between">
+          <div className="w-full lg:w-auto">
+            <ImageDisplay image={imageInfo} source={imageCache[value]} />
+          </div>
+          <div className="w-full lg:w-auto">
+            <BasicLineChart x={arr} y={acc} mark={value} label = {'Error Graph'} />
+          </div>
         </div>
-
       </div>
-
     </div>
   );
 }

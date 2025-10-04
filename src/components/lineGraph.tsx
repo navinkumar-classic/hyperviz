@@ -53,10 +53,10 @@ export default function LineGraph({x}:{x:string}) {
     console.log(x)
     return (
         <>
-            <div className="basis-1/2 flex flex-col items-center bg-white border-1 border-[#E9EAEB] rounded-lg p-3 justify-center">
+            <div className="w-full lg:basis-1/2 flex flex-col items-center bg-white border-1 border-[#E9EAEB] rounded-lg p-2 sm:p-3 justify-center">
 
                 <Line options={options} data={data} />
-                <h1 className="text-lg my-2">Error Graph</h1>
+                <h1 className="text-sm sm:text-base lg:text-lg my-2 text-center">Error Graph</h1>
 
             </div>
         </>

@@ -17,31 +17,13 @@ export default function LHS({ buttonsList, heading, parameters }: { buttonsList:
 
     return (
         <>
-            <div className="w-[80%] rounded-tr-2xl rounded-bl-2xl bg-white my-4 py-4 flex flex-col items-center text-black px-4 border-t-3 border-t-[#E9EAEB] border-b-3 border-b-[#E9EAEB]">
-                <div className="text-xl font-semibold text-center mb-2 pl-2">{heading}</div>
-                <div className="text-md font-light italic text-center pb-2">Choose Your HyperParameter</div>
+            <div className="w-full max-w-sm rounded-tr-2xl rounded-bl-2xl bg-white my-4 py-3 sm:py-4 flex flex-col items-center text-black px-3 sm:px-4 border-t-3 border-t-[#E9EAEB] border-b-3 border-b-[#E9EAEB]">
+                <div className="text-lg sm:text-xl font-semibold text-center mb-2 pl-2">{heading}</div>
+                <div className="text-sm sm:text-md font-light italic text-center pb-2">Choose Your HyperParameter</div>
             </div>
 
             {buttonsList.map((buttons, btnindex) => (
-            <div className="mb-5 w-[80%]" key={btnindex}>
-                {/*<FormControl fullWidth>
-                    <InputLabel variant="standard" htmlFor="uncontrolled-native">
-                        <span className="font-mont text-lg font-extralight" >{parameters[btnindex]}</span>
-                    </InputLabel>
-                    <NativeSelect
-                        defaultValue={30}
-                        inputProps={{
-                            name: 'age',
-                            id: 'uncontrolled-native',
-                        }}
-                        onChange={changeFunction}
-                    >
-                    {buttons.map((button, index) => {
-                        return <option value={button.name} key={index}>{button.name}</option>
-                    })}
-                    </NativeSelect>
-                </FormControl>*/}
-
+            <div className="mb-4 sm:mb-5 w-full max-w-sm px-2" key={btnindex}>
                 <FormControl fullWidth variant="standard">
                         <InputLabel id="demo-simple-select-standard-label">
                             {parameters[btnindex]} &nbsp;
